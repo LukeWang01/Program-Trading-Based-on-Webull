@@ -4,18 +4,18 @@ import datetime
 
 class Trader:
 
-    def __init__(self, username, password, pid, device_name):
+    def __init__(self):
         """
         :param username: phone or email
         :param password:
         """
         # Log in authentication:
-        self.username = username
-        self.password = password
-        self.device_name = device_name
+        self.username = ''
+        self.password = ''
+        self.device_name = ''
 
         # Trading token authentication:
-        self.PID = pid
+        self.PID = ''
 
         # init webull api
         self._webull = webull()
@@ -23,7 +23,27 @@ class Trader:
         # Authentication additional:
         self.did = ''
         self.access_token = ''
+        self.uuid = ''
         self.account_id = ''
+
+    def set_trader_info(self, username, password, pid, device_name):
+        self.username = username
+        self.password = password
+        self.PID = pid
+        self.device_name = device_name
+        return True
+
+    def set_auth_did(self, did):
+        self.did = did
+
+    def set_auth_access_token(self, access_token):
+        self.access_token = access_token
+
+    def set_auth_uuid(self, uuid):
+        self.uuid = uuid
+
+    def get_account_id(self):
+        return self.account_id
 
     def did_init_manually(self, did):
         self._webull._did = did
@@ -34,31 +54,37 @@ class Trader:
     def access_token_init_manually(self, access_token):
         self._webull._access_token = access_token
 
-    def log_in(self):
-        response = self._webull.is_logged_in()
-        if not response:
-            try:
-                login_result = self._webull.login(self.username, self.password, device_name=self.device_name, save_token=True)
-                self._webull._access_token = self.access_token
-                response = self._webull.is_logged_in()
-                if response:
-                    self.account_id = self._webull.get_account_id()
-                    print('-----------------------------------')
-                    print('>>>>>>   Log in successful   <<<<<<')
-                    print(f'>>>   Your login ID: {self.account_id}   <<<')
-                else:
-                    print('-----------------------------------')
-                    print('>>> Log in failed, authentication failed, check info below: ')
-                    print(login_result)
+    def log_in(self, username, password, pid, device_name):
+        res = self.set_trader_info(username, password, pid, device_name)
+        if res:
+            response = self._webull.is_logged_in()
+            if not response:
+                try:
+                    login_result = self._webull.login(self.username, self.password, device_name=self.device_name, save_token=True)
+                    self._webull._access_token = self.access_token
+                    response = self._webull.is_logged_in()
+                    if response:
+                        self.account_id = self._webull.get_account_id()
+                        print('-----------------------------------')
+                        print('>>>>>>   Log in successful   <<<<<<')
+                        print(f'>>>   Your login ID: {self.account_id}   <<<')
+                    else:
+                        print('-----------------------------------')
+                        print('>>> Log in failed, authentication failed, check info below: ')
+                        print(login_result)
+                        return False
+                except ValueError:
+                    print('>>>>>>    Log in failed, please check username or password')
                     return False
-            except ValueError:
-                print('>>>>>>    Log in failed, please check username or password')
-                return False
+            else:
+                print('-----------------------------------')
+                print('>>>>>>   Already Logged In   <<<<<<')
+                print(f'>>>   Your login ID: {self.account_id}   <<<')
+                return True
         else:
             print('-----------------------------------')
-            print('>>>>>>   Already Logged In   <<<<<<')
-            print(f'>>>   Your login ID: {self.account_id}   <<<')
-            return True
+            print('>>>>>> Authentication Info Setup Failed <<<<<<')
+            return False
 
     def log_out(self):
         response = self._webull.logout()
