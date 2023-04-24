@@ -1,5 +1,6 @@
 from webull import webull
 import datetime
+from util import *
 
 
 class Trader:
@@ -28,12 +29,15 @@ class Trader:
 
         self.has_trader_info = False
 
+        logging_info('Trader created')
+
     def set_trader_info(self, username, password, pid, device_name):
         self.username = username
         self.password = password
         self.PID = pid
         self.device_name = device_name
         self.has_trader_info = True
+        logging_info('Trader info set up')
         return True
 
     def set_auth_did(self, did):
@@ -74,13 +78,16 @@ class Trader:
                     print('-----------------------------------')
                     print('>>>>>>   Log in successful   <<<<<<')
                     print(f'>>>   Your login ID: {self.account_id}   <<<')
+                    logging_info('Log in successful')
                 else:
                     print('-----------------------------------')
                     print('>>> Log in failed, authentication failed, check info below: ')
                     print(login_result)
+                    logging_error(f'Log in failed, authentication failed, check info below: {login_result}')
                     return False
             except ValueError:
                 print('>>>>>>    Log in failed, please check username or password')
+                logging_error('Log in failed, please check username or password')
                 return False
         else:
             print('-----------------------------------')
@@ -100,6 +107,7 @@ class Trader:
         print('>>> Enable trading requested <<<')
         if response:
             print('Trading enabled, authentication passed')
+            logging_info('Trading enabled, authentication passed')
             return True
         else:
             if self._webull.is_logged_in():
