@@ -3,7 +3,7 @@ import datetime
 import time
 import pandas as pd
 import yfinance as yf
-from util import *
+from utils.util import *
 
 
 class Quoter:

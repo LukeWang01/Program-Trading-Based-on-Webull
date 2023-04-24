@@ -1,7 +1,7 @@
 # start trading test
-from webull_api.Trader import Trader
-from webull_api.env_k.de_k import *
-from webull_api.env_k._secrete import *
+from Trader import Trader
+from env_k.de_k import *
+from env_k._secrete import *
 import time
 
 
@@ -9,10 +9,11 @@ user_email = user_email_cn
 pd = str(decryption_key_pd())
 access_token = decryption_key_at()
 pd2 = str(decryption_key_pd2())
-device_name = 'lukePC'
-trader = Trader(user_email, pd, pd2, device_name)
+device_name = device_name
+trader = Trader()
 
-# access_token = decryption_key_at()
+
+trader.set_trader_info(user_email, pd, pd2, device_name)
 trader.access_token = decryption_key_at()
 trader.log_in()
 time.sleep(3)

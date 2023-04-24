@@ -3,8 +3,8 @@ import datetime
 import time
 import pandas as pd
 import yfinance as yf
-from Quoter import Quoter
-from util import *
+from quoter import Quoter
+from utils.util import *
 
 
 class Quoter_Webull(Quoter):

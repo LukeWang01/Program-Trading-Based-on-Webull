@@ -1,6 +1,6 @@
 from webull import webull
 import datetime
-from util import *
+from utils.util import *
 
 
 class Trader:

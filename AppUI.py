@@ -8,4 +8,4 @@ import datetime
 
 
 DATABASE_NAME = 'trading_database.db'
-
+LOGGING_FILE = ''

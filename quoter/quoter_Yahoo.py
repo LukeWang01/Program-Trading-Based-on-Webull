@@ -3,8 +3,8 @@ import datetime
 import time
 import pandas as pd
 import yfinance as yf
-from Quoter import Quoter
-from util import *
+from quoter import Quoter
+from utils.util import *
 
 
 class Quoter_Yahoo(Quoter):
@@ -168,8 +168,8 @@ class Quoter_Yahoo(Quoter):
         if count == 'max':
             period = '10y'
         else:
-            # specific time period current not working
-            pass
+            # specific time period current not working, using period instead
+            period = count
 
         if type(stock) == str or (type(stock) == list and len(stock) == 1):
             res_df = yf.Ticker(stock).history(period=period, interval='1d', actions=False, prepost=extend_trading)
@@ -179,6 +179,31 @@ class Quoter_Yahoo(Quoter):
         elif type(stock) == list:
             tickers = yf.Tickers(stock)
             df_tickers = tickers.history(period=period, interval='1d', actions=False,
+                                         prepost=extend_trading, group_by="ticker")
+            res_dict = {}
+            for i in stock:
+                res_dict[i] = df_tickers[i]
+
+            return res_dict
+
+    def get_1w_bar(self, stock, count='max', extend_trading=False):
+        if len(stock) == 0:
+            logging_error('stock cannot be empty')
+            return False
+        if count == 'max':
+            period = '10y'
+        else:
+            # specific time period current not working, using period instead
+            period = count
+
+        if type(stock) == str or (type(stock) == list and len(stock) == 1):
+            res_df = yf.Ticker(stock).history(period=period, interval='1wk', actions=False, prepost=extend_trading)
+
+            return res_df
+
+        elif type(stock) == list:
+            tickers = yf.Tickers(stock)
+            df_tickers = tickers.history(period=period, interval='1wk', actions=False,
                                          prepost=extend_trading, group_by="ticker")
             res_dict = {}
             for i in stock:
