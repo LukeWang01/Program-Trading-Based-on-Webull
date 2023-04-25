@@ -14,9 +14,13 @@ class Strategy:
         self.strategy_name = ''
         self.indicator = ''
 
-        # set quoter
-        self.wb_quoter = Quoter_Webull()
+        # set market data quoter
+        # default is yh_quoter, fast and stable
         self.yh_quoter = Quoter_Yahoo()
+        self.wb_quoter = Quoter_Webull()
+
+        # set portfolio:
+        self.init_asset = 0
 
     """
     Response time: 
@@ -32,7 +36,7 @@ class Strategy:
     """
     def strategy_decision(self, stock):
         """
-        Example strategy, based on RSI, from webull and chatGPT.
+        Example strategy, based on RSI, from Webull and chatGPT.
         Buy when RSI < 30 and Sell when RSI > 70.
         Only for reference, please build your own strategy based on this file
         :return:

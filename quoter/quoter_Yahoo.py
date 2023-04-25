@@ -3,7 +3,7 @@ import datetime
 import time
 import pandas as pd
 import yfinance as yf
-from quoter import Quoter
+from quoter.quoter import Quoter
 from utils.util import *
 
 
@@ -20,13 +20,19 @@ class Quoter_Yahoo(Quoter):
         
         Yahoo:
             interval : str
-            Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
-            Intraday data cannot extend last 60 days
-        interval : str
-        return: pandas dataframe
+            Yahoo:
+            Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo; (Intraday data cannot extend last 60 days)
+            Valid count/period:
+                1m:             5d
+                2m,5m,15m,30m:  1mo
+                1h:             2y
+                d1 and above:   10y
+            
+            Set as default quoter in strategy, fast and stable.
         
+        Reference:
         https://github.com/ranaroussi/yfinance
-        https://algotrading101.com/learn/yfinance-guide/
+        https://aroussi.com/post/python-yahoo-finance
     """
 
     def get_1min_bar(self, stock, count='max', extend_trading=False):
@@ -35,7 +41,7 @@ class Quoter_Yahoo(Quoter):
         :param count: number of bars
         :param extend_trading: including before and after trading
         :return: pandas dataframe or dict of dfs
-        Same to other get_bar functions
+        Same to all other get_bar functions
         """
         if len(stock) == 0:
             logging_error('stock cannot be empty')
