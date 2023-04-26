@@ -2,3 +2,4 @@ env_k/
 *.bin
 webull_credentials.json
 *.json
+.idea/
