@@ -28,9 +28,10 @@ class Strategy:
         self.init_portfolio = {'cash': self.init_cash, 'stock': self.init_stock, 'asset': self.init_asset}
 
         # set oder history
-        self.order_history = pd.DataFrame(columns=['datetime', 'order_id', 'action', 'order_type',
-                                                   'stock', 'order_quantity', 'price', 'amount', 'cost', 'status'])
-        self.order_history.set_index('datetime', inplace=True)
+        self.order_history = []
+        # self.order_history = pd.DataFrame(columns=['datetime', 'order_id', 'action', 'order_type',
+        #                                            'stock', 'price', 'order_quantity', 'amount', 'status'])
+        # self.order_history.set_index('datetime', inplace=True)
 
         # create trading strategy attributes
         self.cash = self.init_cash
