@@ -7,13 +7,15 @@ import pandas_ta as pta
 from quoter.quoter import Quoter
 from quoter.quoter_Webull import Quoter_Webull
 from quoter.quoter_Yahoo import Quoter_Yahoo
+from utils.util import write_data_to_json
 
 
 class Strategy:
-    def __init__(self):
+    def __init__(self, indicator='rsi'):
         # define your own strategy name, and indicator
-        self.strategy_name = ''
-        self.indicator = ''
+        self.strategy_name = 'example_strategy'
+        self.indicator = indicator
+        self.trading_log_filename = 'trade_history'
 
         # set market data quoter
         # default is yh_quoter, fast and stable
@@ -29,9 +31,7 @@ class Strategy:
 
         # set oder history
         self.order_history = []
-        # self.order_history = pd.DataFrame(columns=['datetime', 'order_id', 'action', 'order_type',
-        #                                            'stock', 'price', 'order_quantity', 'amount', 'status'])
-        # self.order_history.set_index('datetime', inplace=True)
+        self.current_order = {}
 
         # create trading strategy attributes
         self.cash = self.init_cash
@@ -93,6 +93,14 @@ class Strategy:
     
     >= 1d:      yh_quoter will get more data
     """
+
+    def strategy_input(self, stock, interval_level, stock_data=None):
+        pass
+
+    def strategy_output(self):
+        # output a dict of decision
+        pass
+
     def strategy_decision(self, stock):
         """
         Example strategy, based on RSI, from Webull and chatGPT.
@@ -118,6 +126,14 @@ class Strategy:
             # hold
             pass
         pass
+
+    def save_current_order(self, datetime, order_id, action, order_type, stock, price, order_quantity, amount, status):
+
+        self.current_order = {'datetime': datetime, 'order_id': order_id, 'action': action, 'order_type': order_type,
+                                'stock': stock, 'price': price, 'order_quantity': order_quantity, 'amount': amount,
+                                'status': status, 'strategy': self.strategy_name}
+        self.order_history.append(self.current_order)
+        write_data_to_json(f"{self.trading_log_filename}.json", self.current_order)
 
     def strategy_rules(self):
         pass

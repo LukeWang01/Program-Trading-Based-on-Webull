@@ -1,5 +1,7 @@
 import datetime
 import time
+
+import pandas
 import pandas as pd
 import logging
 import os
@@ -8,11 +10,11 @@ import json
 """ Data saving """
 
 
-def save_to_csv(stock, stock_data_frame):
+def save_to_csv(stock: str, stock_data_frame: pandas.DataFrame):
     stock_data_frame.to_csv(f'{stock}.csv', index=True)
 
 
-def save_to_xls(stock, stock_data_frame):
+def save_to_xls(stock: str, stock_data_frame: pandas.DataFrame):
     stock_data_frame.to_excel(f'{stock}.xlsx', index=True)
 
 
@@ -27,22 +29,22 @@ def set_up_app_logging():
     logging.basicConfig(filename=log_file, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def logging_info(message):
+def logging_info(message: str):
     set_up_app_logging()
     logging.info(f'>>> {message}')  # write log
 
 
-def logging_warning(message):
+def logging_warning(message: str):
     set_up_app_logging()
     logging.warning(f'>>> {message}')  # write log
 
 
-def logging_error(message):
+def logging_error(message: str):
     set_up_app_logging()
     logging.error(f'>>> {message}')  # write log
 
 
-def logging_critical(message):
+def logging_critical(message: str):
     set_up_app_logging()
     logging.critical(f'>>> {message}')  # write log
 
@@ -50,6 +52,6 @@ def logging_critical(message):
 """ Set up trading history json file """
 
 
-def write_trading_history(trading_data):
-    with open("trading_history.json", "a") as f:
+def write_data_to_json(filename: str, trading_data: dict):
+    with open(filename, "a") as f:
         f.write(json.dumps(trading_data) + "\n")
