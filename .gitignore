@@ -3,3 +3,4 @@ env_k/
 webull_credentials.json
 *.json
 .idea/
+*.ipynb
