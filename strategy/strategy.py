@@ -7,11 +7,11 @@ import pandas_ta as pta
 from quoter.quoter import Quoter
 from quoter.quoter_Webull import Quoter_Webull
 from quoter.quoter_Yahoo import Quoter_Yahoo
-from utils.util import write_data_to_json
+from utils.util import write_trading_log_json
 
 
 class Strategy:
-    def __init__(self, indicator='rsi'):
+    def __init__(self, indicator='rsi', quoter='yahoo'):
         # define your own strategy name, and indicator
         self.strategy_name = 'example_strategy'
         self.indicator = indicator
@@ -19,8 +19,12 @@ class Strategy:
 
         # set market data quoter
         # default is yh_quoter, fast and stable
-        self.yh_quoter = Quoter_Yahoo()
-        self.wb_quoter = Quoter_Webull()
+        self.yh_quoter = None
+        self.wb_quoter = None
+        if quoter == 'yahoo':
+            self.yh_quoter = Quoter_Yahoo()
+        elif quoter == 'webull':
+            self.wb_quoter = Quoter_Webull()
 
         # set portfolio:
         # create trading strategy initialization attributes
@@ -94,6 +98,9 @@ class Strategy:
     >= 1d:      yh_quoter will get more data
     """
 
+    def update(self):
+        pass
+
     def strategy_input(self, stock, interval_level, stock_data=None):
         pass
 
@@ -133,47 +140,82 @@ class Strategy:
                                 'stock': stock, 'price': price, 'order_quantity': order_quantity, 'amount': amount,
                                 'status': status, 'strategy': self.strategy_name}
         self.order_history.append(self.current_order)
-        write_data_to_json(f"{self.trading_log_filename}.json", self.current_order)
+        write_trading_log_json(f"{self.trading_log_filename}.json", self.current_order)
 
-    def strategy_rules(self):
+    def strategy_rules(self, stock):
         pass
 
-    def make_decision_1m(self):
+    def make_decision_1m(self, stock):
         pass
 
-    def make_decision_5m(self):
+    def make_decision_5m(self, stock):
         pass
 
-    def make_decision_15m(self):
+    def make_decision_15m(self, stock):
         pass
 
-    def make_decision_1h(self):
+    def make_decision_1h(self, stock):
+        self.calculate_rsi(self.check_1h_bar(stock=stock))
+
+    def make_decision_1d(self, stock):
         pass
 
-    def make_decision_1d(self):
-        pass
+    def check_1m_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_1min_bar(stock=stock, count='max', extend_trading=False)
+        elif self.wb_quoter:
+            return self.wb_quoter.get_1min_bar(stock=stock, count='max', extend_trading=False)
 
-    def check_1m_bar(self):
-        pass
+    def check_2m_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_2min_bar(stock=stock, count='max', extend_trading=False)
+        elif self.wb_quoter:
+            # no 1 hour bar for webull
+            return None
 
-    def check_2m_bar(self):
-        pass
+    def check_5m_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_5min_bar(stock=stock, count='max', extend_trading=False)
+        elif self.wb_quoter:
+            return self.wb_quoter.get_5min_bar(stock=stock, count='max', extend_trading=False)
 
-    def check_5m_bar(self):
-        pass
+    def check_15m_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_15min_bar(stock=stock, count='max', extend_trading=False)
+        elif self.wb_quoter:
+            return self.wb_quoter.get_15min_bar(stock=stock, count='max', extend_trading=False)
 
-    def check_15m_bar(self):
-        pass
+    def check_30m_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_30min_bar(stock=stock, count='max', extend_trading=False)
+        elif self.wb_quoter:
+            return self.wb_quoter.get_30min_bar(stock=stock, count='max', extend_trading=False)
 
-    def check_30m_bar(self):
-        pass
+    def check_1h_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_1h_bar(stock=stock, count='1y', extend_trading=False)
+        elif self.wb_quoter:
+            # no 1 hour bar from webull
+            return None
 
-    def check_1h_bar(self):
-        pass
+    def check_1d_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_1d_bar(stock=stock, count='1y', extend_trading=False)
+        elif self.wb_quoter:
+            return self.wb_quoter.get_1d_bar(stock=stock, count='max', extend_trading=False)
 
-    def check_1d_bar(self):
-        pass
+    def check_1w_bar(self, stock):
+        if self.yh_quoter:
+            return self.yh_quoter.get_1w_bar(stock=stock, count='1y', extend_trading=False)
+        elif self.wb_quoter:
+            return self.wb_quoter.get_1w_bar(stock=stock, count='max', extend_trading=False)
 
-    def check_1w_bar(self):
-        pass
+    def calculate_rsi(self, stock_data: pd.DataFrame):
+        if self.yh_quoter:
+            return pta.rsi(stock_data['Close'], length=14)
+        elif self.wb_quoter:
+            return pta.rsi(stock_data['close'], length=14)
+        else:
+            return None
+
 

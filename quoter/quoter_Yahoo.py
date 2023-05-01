@@ -45,7 +45,7 @@ class Quoter_Yahoo(Quoter):
         """
         if len(stock) == 0:
             logging_error('stock cannot be empty')
-            return False
+            return None
 
         if type(stock) == str or (type(stock) == list and len(stock) == 1):
             res_df = yf.Ticker(stock).history(period='5d', interval='1m', actions=False, prepost=extend_trading)
@@ -65,7 +65,7 @@ class Quoter_Yahoo(Quoter):
     def get_2min_bar(self, stock, count='max', extend_trading=False):
         if len(stock) == 0:
             logging_error('stock cannot be empty')
-            return False
+            return None
 
         if type(stock) == str or (type(stock) == list and len(stock) == 1):
             res_df = yf.Ticker(stock).history(interval='2m', actions=False, prepost=extend_trading)
@@ -85,7 +85,7 @@ class Quoter_Yahoo(Quoter):
     def get_5min_bar(self, stock, count='max', extend_trading=False):
         if len(stock) == 0:
             logging_error('stock cannot be empty')
-            return False
+            return None
 
         if type(stock) == str or (type(stock) == list and len(stock) == 1):
             res_df = yf.Ticker(stock).history(interval='5m', actions=False, prepost=extend_trading)
@@ -105,7 +105,7 @@ class Quoter_Yahoo(Quoter):
     def get_15min_bar(self, stock, count='max', extend_trading=False):
         if len(stock) == 0:
             logging_error('stock cannot be empty')
-            return False
+            return None
 
         if type(stock) == str or (type(stock) == list and len(stock) == 1):
             res_df = yf.Ticker(stock).history(interval='15m', actions=False, prepost=extend_trading)
@@ -145,7 +145,7 @@ class Quoter_Yahoo(Quoter):
     def get_1h_bar(self, stock, count='max', extend_trading=False):
         if len(stock) == 0:
             logging_error('stock cannot be empty')
-            return False
+            return None
         if count == 'max':
             period = '2y'
         else:
@@ -170,7 +170,7 @@ class Quoter_Yahoo(Quoter):
     def get_1d_bar(self, stock, count='max', extend_trading=False):
         if len(stock) == 0:
             logging_error('stock cannot be empty')
-            return False
+            return None
         if count == 'max':
             period = '10y'
         else:
@@ -195,7 +195,7 @@ class Quoter_Yahoo(Quoter):
     def get_1w_bar(self, stock, count='max', extend_trading=False):
         if len(stock) == 0:
             logging_error('stock cannot be empty')
-            return False
+            return None
         if count == 'max':
             period = '10y'
         else:

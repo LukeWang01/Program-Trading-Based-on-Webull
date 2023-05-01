@@ -37,33 +37,6 @@ class Quoter:
             Set as default quoter in trade/order related, real time ask and bid price.
     """
 
-    def download_history_candles(self, stock, interval='1d', count='max', format='csv'):
-        """
-        :param stock: ticker
-        :param interval: candle interval
-        :param count: max 1200 for 1d
-        :param format: 'csv' or 'xls'
-        :return: pandas dataframe
-        """
-        if interval in ['2m', '5m', '15m', '30m']:
-            cnt = 1200 if count == 'max' else count
-            if interval == '30m':
-                cnt = 1049
-            interval = interval[::-1]
-            response = self.quoter_wb.get_bars(stock, interval=interval, count=cnt, extendTrading=1)
-
-        elif interval in ['1d', '5d', '1wk', '1mo', '3mo']:
-            response = yf.Ticker(stock).history(period='10y', interval=interval, actions=False)
-        else:
-            response = False
-        if not response:
-            if format == 'csv':
-                save_to_csv(stock, response)
-            elif format == 'xls':
-                save_to_xls(stock, response)
-        else:
-            logging_error('Invalid ticker or interval')
-
     def get_current_quote(self, stock):
         pass
 

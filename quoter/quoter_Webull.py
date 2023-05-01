@@ -39,10 +39,11 @@ class Quoter_Webull(Quoter):
             logging_info('Get current quote')
             return res
         except KeyError:
-            logging_error('Out of trading period, please use get_bars()')
-            return False
+            logging_error('Please login to get the real time quote')
+            return None
 
     def get_1min_bar(self, stock, count='max', extend_trading=False):
+        # TODO: need to check if the count is valid, same for others
         cnt = 1200 if count == 'max' else count
         extend = 1 if extend_trading else 0
         response = self.wb.get_bars(stock, interval='m1', count=cnt, extendTrading=extend)
@@ -50,14 +51,14 @@ class Quoter_Webull(Quoter):
             return response
         else:
             logging_warning('Quote count exceed server max count')
-            return False
+            return None
 
     def get_5min_bar(self, stock, count='max', extend_trading=False):
         cnt = 1200 if count == 'max' else count
         extend = 1 if extend_trading else 0
         response = self.wb.get_bars(stock, interval='m5', count=cnt, extendTrading=extend)
         if not len(response) == cnt and len(response) == 1:
-            response = False
+            response = None
             logging_warning('Quote count exceed server max count')
         return response
 
@@ -66,7 +67,7 @@ class Quoter_Webull(Quoter):
         extend = 1 if extend_trading else 0
         response = self.wb.get_bars(stock, interval='m15', count=cnt, extendTrading=extend)
         if not len(response) == cnt and len(response) == 1:
-            response = False
+            response = None
             logging_warning('Quote count exceed server max count')
         return response
 
@@ -75,7 +76,7 @@ class Quoter_Webull(Quoter):
         extend = 1 if extend_trading else 0
         response = self.wb.get_bars(stock, interval='m30', count=cnt, extendTrading=extend)
         if not len(response) == cnt and len(response) == 1:
-            response = False
+            response = None
             logging_warning('Quote count exceed server max count')
         return response
 
@@ -84,7 +85,7 @@ class Quoter_Webull(Quoter):
         extend = 1 if extend_trading else 0
         response = self.wb.get_bars(stock, interval='d1', count=cnt, extendTrading=extend)
         if not len(response) == cnt and len(response) == 1:
-            response = False
+            response = None
             logging_warning('Quote count exceed server max count')
         return response
 
@@ -93,6 +94,6 @@ class Quoter_Webull(Quoter):
         extend = 1 if extend_trading else 0
         response = self.wb.get_bars(stock, interval='w1', count=cnt, extendTrading=extend)
         if not len(response) == cnt and len(response) == 1:
-            response = False
+            response = None
             logging_warning('Quote count exceed server max count')
         return response
