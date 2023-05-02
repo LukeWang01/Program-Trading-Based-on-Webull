@@ -3,8 +3,9 @@ import datetime
 import time
 import pandas as pd
 import yfinance as yf
-from quoter.quoter import Quoter
-from utils.util import *
+
+from quoter.Quoter import Quoter
+from utils.dataIO import logging_info, logging_error, logging_warning
 
 
 class Quoter_Webull(Quoter):

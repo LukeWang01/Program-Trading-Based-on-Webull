@@ -3,14 +3,16 @@ import datetime
 import time
 import pandas as pd
 import yfinance as yf
-from quoter.quoter import Quoter
-from utils.util import *
+
+from quoter.Quoter import Quoter
+from utils.dataIO import logging_info, logging_warning, logging_error
 
 
 class Quoter_Yahoo(Quoter):
     def __init__(self):
         super().__init__()
         self.name = "Yahoo Platform"
+        logging_info('Quoter_Yahoo created')
 
     """
         Limit:  a maximum of 10 requests per second per userw
@@ -25,7 +27,7 @@ class Quoter_Yahoo(Quoter):
             Valid count/period:
                 1m:             5d
                 2m,5m,15m,30m:  1mo
-                1h:             2y
+                1h:             <2y
                 d1 and above:   10y
             
             Set as default quoter in strategy, fast and stable.
@@ -147,7 +149,7 @@ class Quoter_Yahoo(Quoter):
             logging_error('stock cannot be empty')
             return None
         if count == 'max':
-            period = '2y'
+            period = '1y'
         else:
             # specific time period current not working
             pass

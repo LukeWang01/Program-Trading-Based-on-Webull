@@ -1,13 +1,11 @@
-from webull import webull
 import time
 import pandas as pd
 import numpy as np
-import yfinance as yf
 import pandas_ta as pta
-from quoter.quoter import Quoter
+
 from quoter.quoter_Webull import Quoter_Webull
 from quoter.quoter_Yahoo import Quoter_Yahoo
-from utils.util import write_trading_log_json
+from utils.dataIO import write_trading_log_json
 
 
 class Strategy:
@@ -84,7 +82,6 @@ class Strategy:
         self.vwmacd = 0
         self.zlema = 0
 
-
     """
     Response time: 
         wb_quoter:  around 300 - 800 ms
@@ -137,8 +134,8 @@ class Strategy:
     def save_current_order(self, datetime, order_id, action, order_type, stock, price, order_quantity, amount, status):
 
         self.current_order = {'datetime': datetime, 'order_id': order_id, 'action': action, 'order_type': order_type,
-                                'stock': stock, 'price': price, 'order_quantity': order_quantity, 'amount': amount,
-                                'status': status, 'strategy': self.strategy_name}
+                              'stock': stock, 'price': price, 'order_quantity': order_quantity, 'amount': amount,
+                              'status': status, 'strategy': self.strategy_name}
         self.order_history.append(self.current_order)
         write_trading_log_json(f"{self.trading_log_filename}.json", self.current_order)
 
@@ -217,5 +214,3 @@ class Strategy:
             return pta.rsi(stock_data['close'], length=14)
         else:
             return None
-
-
