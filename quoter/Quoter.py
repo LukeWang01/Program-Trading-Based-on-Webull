@@ -1,15 +1,9 @@
-from webull import webull
-import datetime
-import time
-import pandas as pd
-import yfinance as yf
-from utils.util import *
+# This file defines the Quoter class, which is the base class for all quoters.
 
 
 class Quoter:
     def __init__(self):
         self.name = "Quoter"
-        self.quoter_wb = webull()
 
     """
 
@@ -18,7 +12,7 @@ class Quoter:
             Valid count/period:
                 1m:             5d
                 2m,5m,15m,30m:  1mo
-                1h:             2y
+                1h:             <2y
                 d1 and above:   10y
             
             Set as default quoter in strategy, fast and stable.
