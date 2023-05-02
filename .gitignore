@@ -4,3 +4,5 @@ webull_credentials.json
 *.json
 .idea/
 *.ipynb
+*.pyc
+*.log
