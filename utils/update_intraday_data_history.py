@@ -27,34 +27,6 @@ yh_quoter = Quoter_Yahoo()
 wb_quoter = Quoter_Webull()
 
 
-def download_max_history_candles(stock, count='max', save_format='csv'):
-    """
-        :param stock: ticker
-        :param count: max 1200 for 1d
-        :param save_format: 'csv' or 'xls'
-        :return: pandas dataframe
-        """
-
-    stock = stock.upper()
-    response_1h_bar = yh_quoter.get_1h_bar(stock=stock, count=count, extend_trading=True)
-    response_1d_bar = yh_quoter.get_1d_bar(stock=stock, count=count, extend_trading=False)
-
-    save_dir = f'../data/{stock}/'
-
-    if response_1h_bar.empty and response_1d_bar.empty:
-        logging_error('Invalid ticker or interval')
-    else:
-        if save_format == 'csv':
-            save_to_csv(save_dir, f'{stock}_1h', response_1h_bar)
-            save_to_csv(save_dir, f'{stock}_1d', response_1d_bar)
-        elif save_format == 'xls':
-            save_to_xls(save_dir, f'{stock}_1h', response_1h_bar)
-            save_to_xls(save_dir, f'{stock}_1h', response_1d_bar)
-        elif save_format == 'json':
-            save_to_json(save_dir, f'{stock}_1h', response_1h_bar)
-            save_to_json(save_dir, f'{stock}_1h', response_1d_bar)
-
-
 def update_intraday_data_history(stock):
     # run every weekend
 
@@ -102,5 +74,5 @@ def update_intraday_data_history(stock):
 
 for s in stock_lst:
     update_intraday_data_history(s)
-    download_max_history_candles(s)
     print(s)
+

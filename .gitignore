@@ -6,3 +6,5 @@ webull_credentials.json
 *.ipynb
 *.pyc
 *.log
+**/__pycache__/
+utils/tmp_utils.py
