@@ -26,5 +26,19 @@ def send_email(from_, to, msg_subject, msg_body):
         server.send_message(msg)
 
 
+def send_emails(from_, to: list, msg_subject, msg_body):
+    # send an email to multiple recipients
+    sender_email = from_
+    receiver_emails = to    # ['recipient1@example.com', 'recipient2@example.com']
+    message = msg_body
 
+    msg = MIMEText(message)
+    msg['Subject'] = msg_subject
+    msg['From'] = sender_email
+    msg['To'] = ', '.join(receiver_emails)
+
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        server.starttls()
+        server.login(LukeLab_Email, LukeLab_Email_Pwd)
+        server.sendmail(LukeLab_Email, receiver_emails, msg.as_string())
 
