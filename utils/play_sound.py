@@ -1,6 +1,6 @@
 import simpleaudio as sa
 
-# Note: there will be no sound when the code exit immediately  
+# Note: there will be no sound when the code exit immediately
 
 
 def order_placed():
