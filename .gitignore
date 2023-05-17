@@ -8,3 +8,5 @@ webull_credentials.json
 *.log
 **/__pycache__/
 utils/tmp_utils.py
+requirements.txt
+strategy/luke_strategy/
