@@ -4,6 +4,12 @@ from env_k.de_k import *
 from env_k._secrete import *
 import time
 
+"""
+
+Test login, real time price quote, and then place order
+
+For test only.
+"""
 
 user_email = user_email_cn
 pd = str(decryption_key_pd())
