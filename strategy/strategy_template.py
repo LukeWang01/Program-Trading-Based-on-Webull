@@ -17,12 +17,13 @@ class Strategy:
 
         # set market data quoter
         # default is yh_quoter, fast and stable
-        self.yh_quoter = None
-        self.wb_quoter = None
+        self.quoter = None
+        self.yh_quoter = Quoter_Yahoo()
+        self.wb_quoter = Quoter_Webull()
         if quoter == 'yahoo':
-            self.yh_quoter = Quoter_Yahoo()
+            self.quoter = self.yh_quoter
         elif quoter == 'webull':
-            self.wb_quoter = Quoter_Webull()
+            self.quoter = self.wb_quoter
 
         # set portfolio:
         # create trading strategy initialization attributes
