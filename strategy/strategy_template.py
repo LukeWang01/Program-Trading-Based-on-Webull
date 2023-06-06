@@ -86,14 +86,20 @@ class Strategy:
     """
     Response time: 
         wb_quoter:  around 300 - 800 ms
-        yh_quoter:  around 200 - 400 ms
+        yh_quoter:  around 50 - 400 ms (fairly stable)
         
-    Intraday:
+    Intraday (exclude pre-market and after-market):
     < 15 min:   yh_quoter will get more data
     > 15 min:   Quoter_Webull will get more data
     = 1h:       yh_quoter will get more data
-    
     >= 1d:      yh_quoter will get more data
+    
+    Intraday (include pre-market and after-market):
+    < 15 min:   yh_quoter will get more data
+    > 15 min:   yh_quoter will get more data
+    = 1h:       yh_quoter will get more data
+    >= 1d:      yh_quoter will get more data
+    
     """
 
     def update(self):
