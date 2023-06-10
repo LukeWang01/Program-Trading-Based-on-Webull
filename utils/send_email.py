@@ -35,10 +35,13 @@ def send_emails(from_, to: list, msg_subject, msg_body):
     msg = MIMEText(message)
     msg['Subject'] = msg_subject
     msg['From'] = sender_email
-    msg['To'] = ', '.join(receiver_emails)
+    msg['To'] = LukeLab_Email
+    # msg["Cc"] = ''
+    # msg['Bcc'] = ', '.join(receiver_emails)
+    # toaddrs = [msg['To']] + [msg['Bcc']]
 
     with smtplib.SMTP('smtp.gmail.com', 587) as server:
         server.starttls()
         server.login(LukeLab_Email, LukeLab_Email_Pwd)
-        server.sendmail(LukeLab_Email, receiver_emails, msg.as_string())
+        server.sendmail(LukeLab_Email, [LukeLab_Email] + receiver_emails, msg.as_string())
 
