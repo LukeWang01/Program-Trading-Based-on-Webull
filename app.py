@@ -24,7 +24,7 @@ from gui.gui_9_SaveExit.SaveExit import SaveExit
 
 class TradingApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        tk.Tk.__init__(self, *args, **kwargs)
 
         # set app icon
         icon_photo = PhotoImage(file="gui/icon.png")
@@ -33,7 +33,7 @@ class TradingApp(tk.Tk):
         # set app window size
         self.geometry("1096x728")
         self.configure(bg="#FFFFFF")
-        self.title("APP GUI")
+        self.title("Program Trading Based on Webull")
         self.title_font = tkfont.Font(
             family="Arial Rounded MT Bold", size=18, weight="bold", slant="italic"
         )
@@ -42,21 +42,35 @@ class TradingApp(tk.Tk):
         # container for all frames
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, minsize=728, weight=1)
-        container.grid_columnconfigure(0, minsize=1096, weight=1)
+        # container.grid_rowconfigure(0, weight=1)
+        # container.grid_columnconfigure(0, weight=1)
+        # container.grid_columnconfigure(1, weight=1)
+
 
         # set dict save all frame obj
         self.frames = {}
-        frame_objs = [DashboardLogin, DashboardLogged, StrategyMonitor, TreaderProfile, TradingList, Performance,
-                      APPLog, Message, DownloadData, SaveExit]
-        frame_names = ["DashboardLogin", "DashboardLogged", "StrategyMonitor", "TreaderProfile", "TradingList",
-                       "Performance", "APPLog", "Message", "DownloadData", "SaveExit"]
-
+        # frame_objs = [DashboardLogin, DashboardLogged, StrategyMonitor, TreaderProfile, TradingList, Performance,
+        #               APPLog, Message, DownloadData, SaveExit]
+        # frame_names = ["DashboardLogin", "DashboardLogged", "StrategyMonitor", "TreaderProfile", "TradingList",
+        #                "Performance", "APPLog", "Message", "DownloadData", "SaveExit"]
+        frame_objs = [DashboardLogin]
+        frame_names = ["DashboardLogin"]
         # init all frames:
-        for Frame, name in zip(frame_objs, frame_names):
-            frame = Frame(container, self)
-            self.frames[name] = frame
+        for F in frame_objs:
+            page_name = F.__name__
+            frame = F(parent=container, controller=self)
+            self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
+            # frame.pack(fill="both", expand=True)
+
+        # show first frame
+        self.show_frame("DashboardLogin")
+
+    def show_frame(self, page_name):
+        # show frame by name
+        frame = self.frames[page_name]
+        frame.tkraise()
+        print('show frame')
 
 
 
@@ -70,7 +84,7 @@ class TradingApp(tk.Tk):
 
 
 
-
-
-
+if __name__ == "__main__":
+    app = TradingApp()
+    app.mainloop()
 
