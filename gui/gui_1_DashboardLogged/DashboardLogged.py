@@ -7,6 +7,7 @@ class DashboardLogged(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.parent = parent
+        self.name = "DashboardLogged"
 
         OUTPUT_PATH = Path(__file__).parent
         ASSETS_PATH = OUTPUT_PATH / Path("frame1")
@@ -196,3 +197,8 @@ class DashboardLogged(tk.Frame):
         self.entry_1.place(x=670.0, y=194.0, width=338.0, height=409.0)
 
         self.canvas.pack(fill="both", expand=True)
+
+        self.canvas.bind("<Button-1>", self.frame_clicked)
+
+    def frame_clicked(self, event):
+        print(f"{self.name} clicked, x: {event.x} y: {event.y}")

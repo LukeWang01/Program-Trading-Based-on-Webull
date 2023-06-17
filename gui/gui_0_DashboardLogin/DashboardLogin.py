@@ -6,8 +6,8 @@ from tkinter import Canvas, Entry, PhotoImage
 class DashboardLogin(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
+        self.name = "DashboardLogin"
         self.parent = parent
-        # self.controller = controller
 
         def relative_to_assets(path: str) -> Path:
             return ASSETS_PATH / Path(path)
@@ -84,3 +84,7 @@ class DashboardLogin(tk.Frame):
 
         self.canvas.pack(fill="both", expand=True)
 
+        self.canvas.bind("<Button-1>", self.frame_clicked)
+
+    def frame_clicked(self, event):
+        print(f"{self.name} clicked, x: {event.x} y: {event.y}")
