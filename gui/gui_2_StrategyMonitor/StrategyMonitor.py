@@ -47,8 +47,8 @@ class StrategyMonitor(tk.Frame):
         # Create canvas objects
         self.image_1 = self.canvas.create_image(548.0, 364.0, image=self.image_image_1)
         self.image_2 = self.canvas.create_image(648.0, 385.0, image=self.image_image_2)
-        self.image_3 = self.canvas.create_image(1012.0, 30.0, image=self.image_image_3)
-        self.image_4 = self.canvas.create_image(971.0, 30.0, image=self.image_image_4)
+        self.image_3_msg = self.canvas.create_image(1012.0, 30.0, image=self.image_image_3)
+        self.image_4_notify = self.canvas.create_image(971.0, 30.0, image=self.image_image_4)
         self.image_5 = self.canvas.create_image(328.0, 30.0, image=self.image_image_5)
         self.image_6 = self.canvas.create_image(534.0, 30.0, image=self.image_image_6)
         self.image_7 = self.canvas.create_image(534.0, 30.0, image=self.image_image_7)
@@ -123,10 +123,12 @@ class StrategyMonitor(tk.Frame):
 
         self.canvas.bind("<Button-1>", self.frame_clicked)
 
+        self.canvas.tag_bind(self.image_3_msg, "<Button-1>", self.msg_clicked)
+        self.canvas.tag_bind(self.image_4_notify, "<Button-1>", self.notify_clicked)
+
     def frame_clicked(self, event):
         x = event.x
         y = event.y
-        print(f"{self.name} clicked, x: {x} y: {y}")
         if x <= 200:
             # Sidebar area clicked
             print("Sidebar clicked, frame0")

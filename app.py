@@ -56,7 +56,7 @@ class TradingApp(tk.Tk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         # show login frame
-        self.show_frame("DashboardLogin")
+        self.show_frame("DashboardLogged")
 
         # bind window click event
         self.bind("<Button-1>", self.window_clicked)
@@ -65,7 +65,7 @@ class TradingApp(tk.Tk):
         self.cnt = 0
         self.event_x = -1
         self.event_y = -1
-        self.current_frame = self.frames["DashboardLogin"]
+        self.current_frame = self.frames["DashboardLogged"]
 
         # Trading State:
         self.logged_in = False
@@ -87,7 +87,7 @@ class TradingApp(tk.Tk):
         print(f"{self.name} top bar Clicked, x: {x} y: {y}")
 
     def sidebar_clicked(self, x, y):
-        print(f"{self.name} side bar Clicked, x: {x} y: {y}")
+        # print(f"{self.name} side bar Clicked, x: {x} y: {y}")
         if 97 <= y <= 147:
             if self.logged_in:
                 self.show_frame("DashboardLogged")

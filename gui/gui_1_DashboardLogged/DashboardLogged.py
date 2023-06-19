@@ -33,10 +33,10 @@ class DashboardLogged(tk.Frame):
         self.image_2 = self.canvas.create_image(648.0, 385.0, image=self.image_image_2)
 
         self.image_image_3 = PhotoImage(file=relative_to_assets("image_3.png"))
-        self.image_3 = self.canvas.create_image(1012.0, 30.0, image=self.image_image_3)
+        self.image_3_msg = self.canvas.create_image(1012.0, 30.0, image=self.image_image_3)
 
         self.image_image_4 = PhotoImage(file=relative_to_assets("image_4.png"))
-        self.image_4 = self.canvas.create_image(971.0, 30.0, image=self.image_image_4)
+        self.image_4_notify = self.canvas.create_image(971.0, 30.0, image=self.image_image_4)
 
         self.image_image_5 = PhotoImage(file=relative_to_assets("image_5.png"))
         self.image_5 = self.canvas.create_image(328.0, 30.0, image=self.image_image_5)
@@ -185,8 +185,8 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
-        entry_bg_1 = self.canvas.create_image(839.0, 399.5, image=entry_image_1)
+        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
+        self.entry_bg_1 = self.canvas.create_image(839.0, 399.5, image=self.entry_image_1)
         self.entry_1 = Text(
             self.canvas,
             bd=0,
@@ -200,17 +200,17 @@ class DashboardLogged(tk.Frame):
 
         self.canvas.bind("<Button-1>", self.frame_clicked)
 
+        self.canvas.tag_bind(self.image_3_msg, "<Button-1>", self.msg_clicked)
+        self.canvas.tag_bind(self.image_4_notify, "<Button-1>", self.notify_clicked)
+
     def frame_clicked(self, event):
         x = event.x
         y = event.y
-        print(f"{self.name} clicked, x: {x} y: {y}")
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
