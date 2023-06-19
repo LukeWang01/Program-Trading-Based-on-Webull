@@ -201,4 +201,23 @@ class DashboardLogged(tk.Frame):
         self.canvas.bind("<Button-1>", self.frame_clicked)
 
     def frame_clicked(self, event):
-        print(f"{self.name} clicked, x: {event.x} y: {event.y}")
+        x = event.x
+        y = event.y
+        print(f"{self.name} clicked, x: {x} y: {y}")
+        if x <= 200:
+            # Sidebar area clicked
+            print("Sidebar clicked, frame0")
+            self.parent.sidebar_clicked(x, y)
+        elif 200 <= x <= 1096 and y <= 60:
+            # Top bar area clicked
+            print("Top_bar clicked, frame0")
+            self.parent.top_bar_clicked(x, y)
+        else:
+            # frame area clicked
+            pass
+
+    def msg_clicked(self, event):
+        print(f"{self.name}: Message clicked")
+
+    def notify_clicked(self, event):
+        print(f"{self.name}: Notify clicked")

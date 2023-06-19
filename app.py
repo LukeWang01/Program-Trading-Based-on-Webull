@@ -13,6 +13,7 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Entry, PhotoImage
 from tkinter import font as tkfont
 
+from Trader import Trader
 from gui.gui_0_DashboardLogin.DashboardLogin import DashboardLogin
 from gui.gui_1_DashboardLogged.DashboardLogged import DashboardLogged
 from gui.gui_2_StrategyMonitor.StrategyMonitor import StrategyMonitor
@@ -27,7 +28,10 @@ from gui.gui_9_SaveExit.SaveExit import SaveExit
 
 class TradingApp(tk.Tk):
     def __init__(self, *args, **kwargs):
+        # init the main window
         tk.Tk.__init__(self, *args, **kwargs)
+        self.name = "TradingApp Main Window"
+        self.trader = Trader()
 
         # set app icon
         self.icon_photo = PhotoImage(file="gui/icon.png")
@@ -52,27 +56,63 @@ class TradingApp(tk.Tk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         # show login frame
-        self.show_frame("SaveExit")
+        self.show_frame("DashboardLogin")
 
-        # other settings
+        # bind window click event
         self.bind("<Button-1>", self.window_clicked)
+
+        # Main window state:
         self.cnt = 0
+        self.event_x = -1
+        self.event_y = -1
+        self.current_frame = self.frames["DashboardLogin"]
+
+        # Trading State:
+        self.logged_in = False
+
+        # Database State:
+        self.db_connected = False
+        self.db_name = "tradingApp.db"
 
     def print_sth(self):
         print("sth")
         print(f'{self.cnt}')
 
     def window_clicked(self, event):
-        print(f"Main Window Clicked, x: {event.x} y: {event.y}")
-        if event.x < 50 and event.y < 50:
-            self.cnt += 1
-            if self.cnt % 2 == 0:
+        self.event_x = event.x
+        self.event_y = event.y
+        print(f"{self.name} Clicked, x: {self.event_x} y: {self.event_y}")
+
+    def top_bar_clicked(self, x, y):
+        print(f"{self.name} top bar Clicked, x: {x} y: {y}")
+
+    def sidebar_clicked(self, x, y):
+        print(f"{self.name} side bar Clicked, x: {x} y: {y}")
+        if 97 <= y <= 147:
+            if self.logged_in:
                 self.show_frame("DashboardLogged")
             else:
                 self.show_frame("DashboardLogin")
+        elif 161 <= y <= 211:
+            self.show_frame("StrategyMonitor")
+        elif 225 <= y <= 275:
+            self.show_frame("TreaderProfile")
+        elif 289 <= y <= 339:
+            self.show_frame("TradingList")
+        elif 353 <= y <= 403:
+            self.show_frame("Performance")
+        elif 417 <= y <= 467:
+            self.show_frame("APPLog")
+        elif 481 <= y <= 531:
+            self.show_frame("Message")
+        elif 545 <= y <= 595:
+            self.show_frame("DownloadData")
+        elif 609 <= y <= 659:
+            self.show_frame("SaveExit")
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]
+        self.current_frame = frame
         frame.tkraise()
 
 
