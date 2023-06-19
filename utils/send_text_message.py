@@ -1,5 +1,5 @@
 from twilio.rest import Client
-from env_k._secrete import twilio_account_sid, twilio_auth_token
+from env._secrete import twilio_account_sid, twilio_auth_token
 
 
 def send_txt_message(from_, to, msg_body):

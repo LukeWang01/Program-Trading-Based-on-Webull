@@ -1,7 +1,7 @@
 # start trading test
 from Trader import Trader
-from env_k.de_k import *
-from env_k._secrete import *
+from env.de_k import *
+from env._secrete import *
 import time
 
 """

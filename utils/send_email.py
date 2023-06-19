@@ -1,7 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from env_k._secrete import LukeLab_Email_Pwd, LukeLab_Email
+from env._secrete import LukeLab_Email_Pwd, LukeLab_Email
 
 
 def send_email(from_, to, msg_subject, msg_body):

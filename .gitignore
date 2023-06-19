@@ -1,4 +1,4 @@
-env_k/
+env/
 *.bin
 webull_credentials.json
 *.json
