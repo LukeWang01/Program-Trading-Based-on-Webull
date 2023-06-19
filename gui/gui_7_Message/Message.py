@@ -271,15 +271,22 @@ class Message(tk.Frame):
         y = event.y
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
-            pass
+            if 374 <= x <= 524 and 600 <= y <= 635:
+                self.update_settings_clicked()
+            elif 423 <= x <= 443 and 441 <= y <= 461:
+                self.enable_notification_clicked()
+
+    def update_settings_clicked(self):
+        print(f"{self.name}: Update settings clicked")
+
+    def enable_notification_clicked(self):
+        print(f"{self.name}: Enable notification clicked")
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")

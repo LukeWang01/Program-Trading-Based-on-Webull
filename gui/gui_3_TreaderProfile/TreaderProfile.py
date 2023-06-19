@@ -271,15 +271,22 @@ class TreaderProfile(tk.Frame):
         y = event.y
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
-            pass
+            if 378 <= x <= 502 and 596 <= y <= 626:
+                self.update_profile_clicked()
+            elif 421 <= x <= 441 and 448 <= y <= 468:
+                self.save_user_email_clicked()
+
+    def save_user_email_clicked(self):
+        print(f"{self.name}: Save user email clicked")
+
+    def update_profile_clicked(self):
+        print(f"{self.name}: Update profile clicked")
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")

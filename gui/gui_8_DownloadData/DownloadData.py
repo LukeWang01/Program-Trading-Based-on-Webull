@@ -196,15 +196,22 @@ class DownloadData(tk.Frame):
         y = event.y
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
-            pass
+            if 378 <= x <= 502 and 304 <= y <= 334:
+                self.download_intraday_clicked()
+            elif 378 <= x <= 502 and 501 <= y <= 531:
+                self.download_max_history_clicked()
+
+    def download_intraday_clicked(self):
+        print(f"{self.name}: Download intraday clicked")
+
+    def download_max_history_clicked(self):
+        print(f"{self.name}: Download max history clicked")
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")

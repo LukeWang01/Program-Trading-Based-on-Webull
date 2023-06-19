@@ -131,15 +131,27 @@ class StrategyMonitor(tk.Frame):
         y = event.y
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
-            pass
+            if 427 <= x <= 551 and 234 <= y <= 259:
+                self.select_strategy()
+            elif 285 <= x <= 409 and 596 <= y <= 626:
+                self.run_strategy()
+            elif 444 <= x <= 568 and 596 <= y <= 626:
+                self.cancel_strategy()
+
+    def select_strategy(self):
+        print(f"{self.name}: Select strategy clicked")
+
+    def run_strategy(self):
+        print(f"{self.name}: Run strategy clicked")
+
+    def cancel_strategy(self):
+        print(f"{self.name}: Cancel strategy clicked")
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")

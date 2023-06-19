@@ -50,7 +50,7 @@ class DashboardLogged(tk.Frame):
         self.image_image_8 = PhotoImage(file=relative_to_assets("image_8.png"))
         self.image_8 = self.canvas.create_image(328.0, 30.0, image=self.image_image_8)
 
-        self.canvas.create_text(
+        self.dji = self.canvas.create_text(
             536.0,
             703.0,
             anchor="nw",
@@ -59,7 +59,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.spx = self.canvas.create_text(
             273.0,
             704.0,
             anchor="nw",
@@ -68,7 +68,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.ndx = self.canvas.create_text(
             404.0,
             704.0,
             anchor="nw",
