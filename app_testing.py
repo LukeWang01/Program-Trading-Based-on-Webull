@@ -1,5 +1,5 @@
 # start trading test
-from Trader import Trader
+from trader.Trader import Trader
 from env.de_k import *
 from env._secrete import *
 import time
@@ -18,8 +18,8 @@ pd2 = str(decryption_key_pd2())
 device_name = device_name
 trader = Trader()
 
-
-trader.set_trader_info(user_email, pd, pd2, device_name)
+trader.set_device_name(device_name)
+trader.set_trader_info(user_email, pd, pd2)
 trader.access_token = decryption_key_at()
 trader.log_in()
 time.sleep(3)

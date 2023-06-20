@@ -5,15 +5,12 @@ APP GUI Main interface
 LukeLab, 05/2023
 
 """
-import ctypes
-import time
 import tkinter as tk
-from pathlib import Path
 
-from tkinter import Tk, Canvas, Entry, PhotoImage
+from tkinter import PhotoImage, messagebox
 from tkinter import font as tkfont
 
-from Trader import Trader
+from trader.Trader import Trader
 from gui.gui_0_DashboardLogin.DashboardLogin import DashboardLogin
 from gui.gui_1_DashboardLogged.DashboardLogged import DashboardLogged
 from gui.gui_2_StrategyMonitor.StrategyMonitor import StrategyMonitor
@@ -24,6 +21,7 @@ from gui.gui_6_APPLog.APPLog import APPLog
 from gui.gui_7_Message.Message import Message
 from gui.gui_8_DownloadData.DownloadData import DownloadData
 from gui.gui_9_SaveExit.SaveExit import SaveExit
+from utils.SQLiteHelper import SQLiteHelper
 
 
 class TradingApp(tk.Tk):
@@ -34,8 +32,9 @@ class TradingApp(tk.Tk):
         self.trader = Trader()
 
         # set app icon
-        self.icon_photo = PhotoImage(file="gui/icon.png")
-        self.iconphoto(False, self.icon_photo, self.icon_photo)
+        # self.icon_photo = PhotoImage(file="gui/icon.png")
+        # self.iconphoto(False, self.icon_photo, self.icon_photo)
+        self.iconbitmap(default="gui/icon.ico")
 
         # set app window size
         self.geometry("1096x728+200+100")
@@ -73,7 +72,9 @@ class TradingApp(tk.Tk):
         # Database State:
         self.db_connected = False
         self.db_name = "tradingApp.db"
+        self.db = SQLiteHelper(self.db_name)
 
+    # Frontend functions:
     def print_sth(self):
         print("sth")
         print(f'{self.cnt}')
@@ -114,6 +115,37 @@ class TradingApp(tk.Tk):
         frame = self.frames[page_name]
         self.current_frame = frame
         frame.tkraise()
+
+    # Back-end functions:
+    # Trader:
+    def read_trader_info(self):
+        self.trader.set_device_name(self.db.get_device_name())
+        self.trader.set_auth_access_token(self.db.get_access_token())
+        self.trader.set_auth_did(self.db.get_did())
+        self.trader.set_auth_uuid(self.db.get_uuid())
+
+    # DashboardLogin
+    def setup_did(self, did):
+        self.trader.set_auth_did(did)
+
+    def setup_uuid(self, uuid):
+        self.trader.set_auth_uuid(uuid)
+
+    def set_access_token(self, access_token):
+        self.trader.set_auth_access_token(access_token)
+
+    def set_device_name(self, device_name):
+        self.trader.set_device_name(device_name)
+
+    def login(self, email, password, pid):
+        self.trader.set_trader_info(email, password, pid)
+        res = self.trader.log_in()
+        if res:
+            self.logged_in = True
+            self.show_frame("DashboardLogged")
+        else:
+            self.logged_in = False
+            messagebox.showinfo("Oops something went wrong", "please check username or password.              ")
 
 
 if __name__ == "__main__":

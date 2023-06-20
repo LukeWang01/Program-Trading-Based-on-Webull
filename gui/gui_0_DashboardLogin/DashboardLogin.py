@@ -1,6 +1,6 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Canvas, Entry, PhotoImage
+from tkinter import Canvas, Entry, PhotoImage, simpledialog, messagebox
 
 from utils.input_check import is_valid_email, is_valid_phone_number, is_valid_pid
 
@@ -107,21 +107,16 @@ class DashboardLogin(tk.Frame):
             # frame area clicked
             if 712 <= x <= 936 and 529 <= y <= 564:
                 self.login_clicked()
-            elif 712 <= x <= 792 and 605 <= y <= 630:
+            elif 667 <= x <= 727 and 605 <= y <= 630:
                 self.setup_did_clicked()
-            elif 856 <= x <= 936 and 605 <= y <= 630:
+            elif 735 <= x <= 805 and 605 <= y <= 630:
                 self.setup_uuid_clicked()
-            elif 712 <= x <= 792 and 637 <= y <= 661:
+            elif 778 <= x <= 858 and 637 <= y <= 661:
                 self.instruction_clicked()
-
-    def instruction_clicked(self):
-        print(f"{self.name}: Instruction clicked")
-
-    def setup_did_clicked(self):
-        print(f"{self.name}: DID clicked")
-
-    def setup_uuid_clicked(self):
-        print(f"{self.name}: UUID clicked")
+            elif 814 <= x <= 894 and 605 <= y <= 630:
+                self.access_token_clicked()
+            elif 902 <= x <= 982 and 605 <= y <= 630:
+                self.device_name_clicked()
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")
@@ -129,16 +124,39 @@ class DashboardLogin(tk.Frame):
     def notify_clicked(self, event):
         print(f"{self.name}: Notify clicked")
 
+    def device_name_clicked(self):
+        input_value = simpledialog.askstring("Setup device name",
+                                             "Enter the device name (click instruction for help) :")
+        if input_value is not None:
+            self.parent.set_device_name(input_value)
+
+    def access_token_clicked(self):
+        input_value = simpledialog.askstring(
+            "Setup access token",
+            "Enter the access token from the web, keep it safe (click instruction for help) :")
+        if input_value is not None:
+            self.parent.set_access_token(input_value)
+
+    def instruction_clicked(self):
+        print(f"{self.name}: Instruction clicked")
+
+    def setup_did_clicked(self):
+        input_value = simpledialog.askstring("Setup _did value", "Enter the _did value (click instruction for help) : ")
+        if input_value is not None:
+            self.parent.setup_did(input_value)
+
+    def setup_uuid_clicked(self):
+        input_value = simpledialog.askstring("Setup uuid value", "Enter the uuid value (click instruction for help) : ")
+        if input_value is not None:
+            self.parent.setup_uuid(input_value)
+
     def login_clicked(self):
         email = self.entry_3_email.get()
         password = self.entry_2_password.get()
         pid = self.entry_1_PID.get()
         if (is_valid_email(email) or is_valid_phone_number(email)) and is_valid_pid(pid):
-            print("go to login")
-            print(f"email: {email}")
-            print(f"pd: {password}")
-            print(f"pid: {pid}")
+            self.parent.login(email, password, pid)
         else:
-            print("incorrect email, phone number, or PID format")
+            messagebox.showinfo("Oops something went wrong", "incorrect email, phone number, or PID format")
 
 

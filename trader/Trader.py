@@ -31,14 +31,16 @@ class Trader:
 
         logging_info('Trader created')
 
-    def set_trader_info(self, username, password, pid, device_name):
+    def set_trader_info(self, username, password, pid):
         self.username = username
         self.password = password
         self.PID = pid
-        self.device_name = device_name
-        self.has_trader_info = True
+        if self.did and self.access_token and self.uuid and self.device_name:
+            self.has_trader_info = True
         logging_info('Trader info set up')
-        return True
+
+    def set_device_name(self, device_name):
+        self.device_name = device_name
 
     def set_auth_did(self, did):
         self.did = did
