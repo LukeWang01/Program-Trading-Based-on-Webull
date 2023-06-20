@@ -73,6 +73,7 @@ class TradingApp(tk.Tk):
         self.db_connected = False
         self.db_name = "tradingApp.db"
         self.db = SQLiteHelper(self.db_name)
+        self.read_trader_info()
 
     # Frontend functions:
     def print_sth(self):

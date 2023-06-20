@@ -126,29 +126,33 @@ class DashboardLogin(tk.Frame):
 
     def device_name_clicked(self):
         input_value = simpledialog.askstring("Setup device name",
-                                             "Enter the device name (click instruction for help) :")
+                                             "Enter the device name (click instruction for help) :",
+                                             initialvalue=self.parent.db.get_device_name())
         if input_value is not None:
             self.parent.set_device_name(input_value)
 
     def access_token_clicked(self):
         input_value = simpledialog.askstring(
             "Setup access token",
-            "Enter the access token from the web, keep it safe (click instruction for help) :")
+            "Enter the access token from the web, keep it safe (click instruction for help) :",
+            initialvalue=self.parent.db.get_access_token())
         if input_value is not None:
             self.parent.set_access_token(input_value)
 
-    def instruction_clicked(self):
-        print(f"{self.name}: Instruction clicked")
-
     def setup_did_clicked(self):
-        input_value = simpledialog.askstring("Setup _did value", "Enter the _did value (click instruction for help) : ")
+        input_value = simpledialog.askstring("Setup _did value", "Enter the _did value (click instruction for help) : ",
+                                             initialvalue=self.parent.db.get_did())
         if input_value is not None:
             self.parent.setup_did(input_value)
 
     def setup_uuid_clicked(self):
-        input_value = simpledialog.askstring("Setup uuid value", "Enter the uuid value (click instruction for help) : ")
+        input_value = simpledialog.askstring("Setup uuid value", "Enter the uuid value (click instruction for help) : ",
+                                             initialvalue=self.parent.db.get_uuid())
         if input_value is not None:
             self.parent.setup_uuid(input_value)
+
+    def instruction_clicked(self):
+        print(f"{self.name}: Instruction clicked")
 
     def login_clicked(self):
         email = self.entry_3_email.get()

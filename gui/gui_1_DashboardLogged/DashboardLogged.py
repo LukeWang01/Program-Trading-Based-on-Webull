@@ -77,7 +77,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_order_pending = self.canvas.create_text(
             395.0,
             326.0,
             anchor="nw",
@@ -86,7 +86,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_net_account_value = self.canvas.create_text(
             468.0,
             521.0,
             anchor="nw",
@@ -95,7 +95,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_cash_balance = self.canvas.create_text(
             469.0,
             559.0,
             anchor="nw",
@@ -104,7 +104,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_market_value = self.canvas.create_text(
             469.0,
             599.0,
             anchor="nw",
@@ -113,7 +113,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_dayPL = self.canvas.create_text(
             395.0,
             399.0,
             anchor="nw",
@@ -122,7 +122,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_openPL = self.canvas.create_text(
             395.0,
             444.0,
             anchor="nw",
@@ -131,7 +131,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_dayPL_pct = self.canvas.create_text(
             469.0,
             399.0,
             anchor="nw",
@@ -140,7 +140,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_openPL_pct = self.canvas.create_text(
             469.0,
             444.0,
             anchor="nw",
@@ -149,7 +149,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_order_filled = self.canvas.create_text(
             395.0,
             281.0,
             anchor="nw",
@@ -158,7 +158,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_order_placed = self.canvas.create_text(
             392.0,
             242.0,
             anchor="nw",
@@ -167,7 +167,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_account_id = self.canvas.create_text(
             392.0,
             184.0,
             anchor="nw",
@@ -176,7 +176,7 @@ class DashboardLogged(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.text_email = self.canvas.create_text(
             317.0,
             135.0,
             anchor="nw",
@@ -187,14 +187,14 @@ class DashboardLogged(tk.Frame):
 
         self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
         self.entry_bg_1 = self.canvas.create_image(839.0, 399.5, image=self.entry_image_1)
-        self.entry_1 = Text(
+        self.entry_1_my_positions = Text(
             self.canvas,
             bd=0,
             bg="#EFF4FB",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_1.place(x=670.0, y=194.0, width=338.0, height=409.0)
+        self.entry_1_my_positions.place(x=670.0, y=194.0, width=338.0, height=409.0)
 
         self.canvas.pack(fill="both", expand=True)
 
@@ -221,3 +221,41 @@ class DashboardLogged(tk.Frame):
 
     def notify_clicked(self, event):
         print(f"{self.name}: Notify clicked")
+
+    def update_text_email(self, text):
+        self.canvas.itemconfig(self.text_email, text=text)
+
+    def update_text_account_id(self, text):
+        self.canvas.itemconfig(self.text_account_id, text=text)
+
+    def update_text_order_placed(self, text):
+        self.canvas.itemconfig(self.text_order_placed, text=text)
+
+    def update_text_order_filled(self, text):
+        self.canvas.itemconfig(self.text_order_filled, text=text)
+
+    def update_text_openPL_pct(self, text):
+        self.canvas.itemconfig(self.text_openPL_pct, text=text)
+
+    def update_text_dayPL_pct(self, text):
+        self.canvas.itemconfig(self.text_dayPL_pct, text=text)
+
+    def update_text_openPL(self, text):
+        self.canvas.itemconfig(self.text_openPL, text=text)
+
+    def update_text_dayPL(self, text):
+        self.canvas.itemconfig(self.text_dayPL, text=text)
+
+    def update_text_market_value(self, text):
+        self.canvas.itemconfig(self.text_market_value, text=text)
+
+    def update_text_cash_balance(self, text):
+        self.canvas.itemconfig(self.text_cash_balance, text=text)
+
+    def update_text_net_account_value(self, text):
+        self.canvas.itemconfig(self.text_net_account_value, text=text)
+
+    def update_entry_my_positions(self, text):
+        self.entry_1_my_positions.delete("1.0", "end")
+        self.entry_1_my_positions.insert("end", text)
+
