@@ -37,6 +37,11 @@ class SQLiteHelper:
         self.cursor.execute(query, tuple(data.values()))
         self.conn.commit()
 
+    def table_exists(self, table_name):
+        query = "SELECT name FROM sqlite_master WHERE type='table' AND name=?"
+        cursor = self.conn.execute(query, (table_name,))
+        return cursor.fetchone() is not None
+
     def close_connection(self):
         if self.cursor:
             self.cursor.close()
@@ -55,6 +60,9 @@ class SQLiteHelper:
         table_name = "trader_info"
         columns = "email TEXT, access_token TEXT, device_name TEXT, did TEXT, uuid TEXT"
         self.create_table(table_name, columns)
+        if not self.table_exists(table_name):
+            self.insert_data(table_name, {"email": "", "access_token": "", "device_name": "", "did": "", "uuid": ""})
+        self.close_connection()
 
     def get_device_name(self):
         self.connect()
@@ -79,5 +87,25 @@ class SQLiteHelper:
         data = self.get_data("trader_info", "uuid")
         self.close_connection()
         return data[0][0]
+
+    def update_did(self, did):
+        self.connect()
+        self.update_data("trader_info", {"did": did}, "ROWID = 1")
+        self.close_connection()
+
+    def update_uuid(self, uuid):
+        self.connect()
+        self.update_data("trader_info", {"uuid": uuid}, "ROWID = 1")
+        self.close_connection()
+
+    def update_access_token(self, access_token):
+        self.connect()
+        self.update_data("trader_info", {"access_token": access_token}, "ROWID = 1")
+        self.close_connection()
+
+    def update_device_name(self, device_name):
+        self.connect()
+        self.update_data("trader_info", {"device_name": device_name}, "ROWID = 1")
+        self.close_connection()
 
 

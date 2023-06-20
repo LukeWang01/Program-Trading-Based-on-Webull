@@ -127,15 +127,19 @@ class TradingApp(tk.Tk):
     # DashboardLogin
     def setup_did(self, did):
         self.trader.set_auth_did(did)
+        self.db.update_did(did)
 
     def setup_uuid(self, uuid):
         self.trader.set_auth_uuid(uuid)
+        self.db.update_uuid(uuid)
 
     def set_access_token(self, access_token):
         self.trader.set_auth_access_token(access_token)
+        self.db.update_access_token(access_token)
 
     def set_device_name(self, device_name):
         self.trader.set_device_name(device_name)
+        self.db.update_device_name(device_name)
 
     def login(self, email, password, pid):
         self.trader.set_trader_info(email, password, pid)
