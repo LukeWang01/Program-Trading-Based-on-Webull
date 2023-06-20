@@ -142,6 +142,8 @@ class TradingApp(tk.Tk):
         self.db.update_device_name(device_name)
 
     def login(self, email, password, pid):
+        print(f"email: {email}, parent login called")
+        self.db.update_email(email)
         self.trader.set_trader_info(email, password, pid)
         res = self.trader.log_in()
         if res:

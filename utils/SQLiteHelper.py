@@ -59,8 +59,8 @@ class SQLiteHelper:
         self.connect()
         table_name = "trader_info"
         columns = "email TEXT, access_token TEXT, device_name TEXT, did TEXT, uuid TEXT"
-        self.create_table(table_name, columns)
         if not self.table_exists(table_name):
+            self.create_table(table_name, columns)
             self.insert_data(table_name, {"email": "", "access_token": "", "device_name": "", "did": "", "uuid": ""})
         self.close_connection()
 
@@ -106,6 +106,11 @@ class SQLiteHelper:
     def update_device_name(self, device_name):
         self.connect()
         self.update_data("trader_info", {"device_name": device_name}, "ROWID = 1")
+        self.close_connection()
+
+    def update_email(self, email):
+        self.connect()
+        self.update_data("trader_info", {"email": email}, "ROWID = 1")
         self.close_connection()
 
 
