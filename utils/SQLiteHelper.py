@@ -7,6 +7,7 @@ class SQLiteHelper:
         self.conn = None
         self.cursor = None
         self.init_trader_info()
+        # self.init_
 
     def connect(self):
         self.conn = sqlite3.connect(self.db_name)
@@ -85,6 +86,12 @@ class SQLiteHelper:
     def get_uuid(self):
         self.connect()
         data = self.get_data("trader_info", "uuid")
+        self.close_connection()
+        return data[0][0]
+
+    def get_email(self):
+        self.connect()
+        data = self.get_data("trader_info", "email")
         self.close_connection()
         return data[0][0]
 

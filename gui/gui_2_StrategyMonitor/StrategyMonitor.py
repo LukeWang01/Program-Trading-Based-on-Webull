@@ -144,6 +144,9 @@ class StrategyMonitor(tk.Frame):
             elif 444 <= x <= 568 and 596 <= y <= 626:
                 self.cancel_strategy()
 
+    def update_data(self):
+        pass
+
     def select_strategy(self):
         print(f"{self.name}: Select strategy clicked")
 

@@ -27,6 +27,19 @@ class Trader:
         self.uuid = ''
         self.account_id = ''
 
+        # Trader current trading status:
+        self.order_placed = 0
+        self.order_filled = 0
+        self.order_pending = 0
+        self.openPL_pct = 0
+        self.openPL = 0
+        self.dayPL_pct = 0
+        self.dayPL = 0
+        self.market_value = 0
+        self.cash_balance = 0
+        self.net_account_value = 0
+        self.my_positions = ''
+
         self.has_trader_info = False
 
         logging_info('Trader created')
@@ -38,6 +51,9 @@ class Trader:
         if self.did and self.access_token and self.uuid and self.device_name:
             self.has_trader_info = True
         logging_info('Trader info set up')
+
+    def set_user_name(self, email):
+        self.username = email
 
     def set_device_name(self, device_name):
         self.device_name = device_name

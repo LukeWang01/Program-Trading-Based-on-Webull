@@ -207,6 +207,9 @@ class DownloadData(tk.Frame):
             elif 378 <= x <= 502 and 501 <= y <= 531:
                 self.download_max_history_clicked()
 
+    def update_data(self):
+        pass
+
     def download_intraday_clicked(self):
         print(f"{self.name}: Download intraday clicked")
 

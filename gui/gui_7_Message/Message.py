@@ -282,6 +282,9 @@ class Message(tk.Frame):
             elif 423 <= x <= 443 and 441 <= y <= 461:
                 self.enable_notification_clicked()
 
+    def update_data(self):
+        pass
+
     def update_settings_clicked(self):
         print(f"{self.name}: Update settings clicked")
 

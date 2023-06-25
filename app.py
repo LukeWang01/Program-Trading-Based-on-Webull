@@ -54,9 +54,6 @@ class TradingApp(tk.Tk):
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        # show login frame
-        self.show_frame("DashboardLogged")
-
         # bind window click event
         self.bind("<Button-1>", self.window_clicked)
 
@@ -74,6 +71,9 @@ class TradingApp(tk.Tk):
         self.db_name = "tradingApp.db"
         self.db = SQLiteHelper(self.db_name)
         self.read_trader_info()
+
+        # show first frame
+        self.show_frame("DashboardLogged")
 
     # Frontend functions:
     def print_sth(self):
@@ -115,6 +115,7 @@ class TradingApp(tk.Tk):
     def show_frame(self, page_name):
         frame = self.frames[page_name]
         self.current_frame = frame
+        frame.update_data()
         frame.tkraise()
 
     # Back-end functions:
@@ -124,6 +125,7 @@ class TradingApp(tk.Tk):
         self.trader.set_auth_access_token(self.db.get_access_token())
         self.trader.set_auth_did(self.db.get_did())
         self.trader.set_auth_uuid(self.db.get_uuid())
+        self.trader.set_user_name(self.db.get_email())
 
     # DashboardLogin
     def setup_did(self, did):

@@ -118,6 +118,11 @@ class DashboardLogin(tk.Frame):
             elif 902 <= x <= 982 and 605 <= y <= 630:
                 self.device_name_clicked()
 
+    def update_data(self):
+        if self.parent.trader.username:
+            self.entry_3_email.delete(0, "END")
+            self.entry_3_email.insert(0, self.parent.trader.username)
+
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")
 

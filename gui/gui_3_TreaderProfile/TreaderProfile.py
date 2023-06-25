@@ -282,6 +282,9 @@ class TreaderProfile(tk.Frame):
             elif 421 <= x <= 441 and 448 <= y <= 468:
                 self.save_user_email_clicked()
 
+    def update_data(self):
+        pass
+
     def save_user_email_clicked(self):
         print(f"{self.name}: Save user email clicked")
 

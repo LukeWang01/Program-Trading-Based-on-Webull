@@ -216,6 +216,21 @@ class DashboardLogged(tk.Frame):
             # frame area clicked
             pass
 
+    def update_data(self):
+        self.update_text_email(self.parent.trader.username)
+        self.update_text_account_id(self.parent.trader.account_id)
+        self.update_text_order_placed(self.parent.trader.order_placed)
+        self.update_text_order_filled(self.parent.trader.order_filled)
+        self.update_text_order_pending(self.parent.trader.order_pending)
+        self.update_text_openPL_pct(self.parent.trader.openPL_pct)
+        self.update_text_openPL(self.parent.trader.openPL)
+        self.update_text_dayPL_pct(self.parent.trader.dayPL_pct)
+        self.update_text_dayPL(self.parent.trader.dayPL)
+        self.update_text_market_value(self.parent.trader.market_value)
+        self.update_text_cash_balance(self.parent.trader.cash_balance)
+        self.update_text_net_account_value(self.parent.trader.net_account_value)
+        self.update_entry_my_positions(self.parent.trader.my_positions)
+
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")
 
@@ -258,4 +273,7 @@ class DashboardLogged(tk.Frame):
     def update_entry_my_positions(self, text):
         self.entry_1_my_positions.delete("1.0", "end")
         self.entry_1_my_positions.insert("end", text)
+
+    def update_text_order_pending(self, text):
+        self.canvas.itemconfig(self.text_order_pending, text=text)
 

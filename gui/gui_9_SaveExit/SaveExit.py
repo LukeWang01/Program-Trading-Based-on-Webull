@@ -171,6 +171,9 @@ class SaveExit(tk.Frame):
             # frame area clicked
             pass
 
+    def update_data(self):
+        pass
+
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")
 
