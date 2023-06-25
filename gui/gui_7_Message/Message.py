@@ -93,7 +93,7 @@ class Message(tk.Frame):
             image=self.image_image_8
         )
 
-        self.canvas.create_text(
+        self.dji = self.canvas.create_text(
             536.0,
             703.0,
             anchor="nw",
@@ -102,7 +102,7 @@ class Message(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.spx = self.canvas.create_text(
             273.0,
             704.0,
             anchor="nw",
@@ -111,7 +111,7 @@ class Message(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.ndx = self.canvas.create_text(
             404.0,
             704.0,
             anchor="nw",
@@ -120,7 +120,7 @@ class Message(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.account_type = self.canvas.create_text(
             411.0,
             166.0,
             anchor="nw",
@@ -129,7 +129,7 @@ class Message(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.account_id = self.canvas.create_text(
             411.0,
             135.0,
             anchor="nw",
@@ -145,14 +145,14 @@ class Message(tk.Frame):
             409.5,
             image=self.entry_image_1
         )
-        self.entry_1 = Entry(
+        self.entry_1_receiver_email = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_1.place(
+        self.entry_1_receiver_email.place(
             x=415.0,
             y=397.0,
             width=152.0,
@@ -166,14 +166,14 @@ class Message(tk.Frame):
             252.5,
             image=self.entry_image_2
         )
-        self.entry_2 = Entry(
+        self.entry_2_sender_email = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_2.place(
+        self.entry_2_sender_email.place(
             x=415.0,
             y=240.0,
             width=152.0,
@@ -187,14 +187,14 @@ class Message(tk.Frame):
             295.5,
             image=self.entry_image_3
         )
-        self.entry_3 = Entry(
+        self.entry_3_sender_password = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_3.place(
+        self.entry_3_sender_password.place(
             x=415.0,
             y=283.0,
             width=152.0,
@@ -208,14 +208,14 @@ class Message(tk.Frame):
             339.5,
             image=self.entry_image_4
         )
-        self.entry_4 = Entry(
+        self.entry_4_receiver_email = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_4.place(
+        self.entry_4_receiver_email.place(
             x=415.0,
             y=327.0,
             width=152.0,
@@ -229,35 +229,51 @@ class Message(tk.Frame):
             380.0,
             image=self.entry_image_5
         )
-        self.entry_5 = Text(
+        self.entry_5_message_list = Text(
             self.canvas,
             bd=0,
             bg="#EFF4FB",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_5.place(
+        self.entry_5_message_list.place(
             x=669.0,
             y=180.0,
             width=342.0,
             height=398.0
         )
 
-        self.canvas.create_rectangle(
-            423.0,
+        self.image_image_9 = PhotoImage(
+            file=relative_to_assets("image_9.png"))
+        self.image_9_check_box_0 = self.canvas.create_image(
             441.0,
-            443.0,
-            461.0,
-            fill="#FFFFFF",
-            outline="")
+            448.0,
+            image=self.image_image_9
+        )
 
-        self.canvas.create_rectangle(
-            423.0,
+        self.image_image_10 = PhotoImage(
+            file=relative_to_assets("image_10.png"))
+        self.image_10_check_box_1 = self.canvas.create_image(
             441.0,
-            443.0,
-            461.0,
-            fill="#FFFFFF",
-            outline="")
+            448.0,
+            image=self.image_image_10
+        )
+
+        # self.canvas.create_rectangle(
+        #     423.0,
+        #     441.0,
+        #     443.0,
+        #     461.0,
+        #     fill="#FFFFFF",
+        #     outline="")
+        #
+        # self.canvas.create_rectangle(
+        #     423.0,
+        #     441.0,
+        #     443.0,
+        #     461.0,
+        #     fill="#FFFFFF",
+        #     outline="")
 
         self.canvas.pack(fill="both", expand=True)
 

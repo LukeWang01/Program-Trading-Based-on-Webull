@@ -54,7 +54,7 @@ class StrategyMonitor(tk.Frame):
         self.image_7 = self.canvas.create_image(534.0, 30.0, image=self.image_image_7)
         self.image_8 = self.canvas.create_image(328.0, 30.0, image=self.image_image_8)
 
-        self.canvas.create_text(
+        self.dji = self.canvas.create_text(
             536.0,
             703.0,
             anchor="nw",
@@ -63,7 +63,7 @@ class StrategyMonitor(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.spx = self.canvas.create_text(
             273.0,
             704.0,
             anchor="nw",
@@ -72,7 +72,7 @@ class StrategyMonitor(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.ndx = self.canvas.create_text(
             404.0,
             704.0,
             anchor="nw",
@@ -81,7 +81,7 @@ class StrategyMonitor(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.strategy_status = self.canvas.create_text(
             405.0,
             176.0,
             anchor="nw",
@@ -90,7 +90,7 @@ class StrategyMonitor(tk.Frame):
             font=("ArialMT", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.current_strategy = self.canvas.create_text(
             405.0,
             135.0,
             anchor="nw",
@@ -100,24 +100,24 @@ class StrategyMonitor(tk.Frame):
         )
 
         self.entry_bg_1 = self.canvas.create_image(840.0, 547.0, image=self.entry_image_1)
-        self.entry_1 = Text(self.canvas, bd=0, bg="#EFF4FB", fg="#000716", highlightthickness=0)
-        self.entry_1.place(x=669.0, y=472.0, width=342.0, height=148.0)
+        self.entry_1_strategy_stream = Text(self.canvas, bd=0, bg="#EFF4FB", fg="#000716", highlightthickness=0)
+        self.entry_1_strategy_stream.place(x=669.0, y=472.0, width=342.0, height=148.0)
 
         self.entry_bg_2 = self.canvas.create_image(840.0, 314.0, image=self.entry_image_2)
-        self.entry_2 = Text(self.canvas, bd=0, bg="#EFF4FB", fg="#000716", highlightthickness=0)
-        self.entry_2.place(x=669.0, y=204.0, width=342.0, height=218.0)
+        self.entry_2_quoter_stream = Text(self.canvas, bd=0, bg="#EFF4FB", fg="#000716", highlightthickness=0)
+        self.entry_2_quoter_stream.place(x=669.0, y=204.0, width=342.0, height=218.0)
 
         self.entry_bg_3 = self.canvas.create_image(445.0, 364.0, image=self.entry_image_3)
-        self.entry_3 = Text(self.canvas, bd=0, bg="#EFF4FB", fg="#000716", highlightthickness=0)
-        self.entry_3.place(x=274.0, y=304.0, width=342.0, height=118.0)
+        self.entry_3_imported_list = Text(self.canvas, bd=0, bg="#EFF4FB", fg="#000716", highlightthickness=0)
+        self.entry_3_imported_list.place(x=274.0, y=304.0, width=342.0, height=118.0)
 
         self.entry_bg_4 = self.canvas.create_image(485.0, 473.5, image=self.entry_image_4)
-        self.entry_4 = Entry(self.canvas, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0)
-        self.entry_4.place(x=409.0, y=461.0, width=152.0, height=23.0)
+        self.entry_4_strategy_quoter = Entry(self.canvas, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0)
+        self.entry_4_strategy_quoter.place(x=409.0, y=461.0, width=152.0, height=23.0)
 
         self.entry_bg_5 = self.canvas.create_image(485.0, 509.5, image=self.entry_image_5)
-        self.entry_5 = Entry(self.canvas, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0)
-        self.entry_5.place(x=409.0, y=497.0, width=152.0, height=23.0)
+        self.entry_5_monitor_ticker = Entry(self.canvas, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0)
+        self.entry_5_monitor_ticker.place(x=409.0, y=497.0, width=152.0, height=23.0)
 
         self.canvas.pack(fill="both", expand=True)
 

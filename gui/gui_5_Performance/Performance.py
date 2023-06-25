@@ -48,7 +48,7 @@ class Performance(tk.Frame):
         self.image_image_7 = self.canvas.create_image(534.0, 30.0, image=self.image_7)
         self.image_image_8 = self.canvas.create_image(328.0, 30.0, image=self.image_8)
 
-        self.canvas.create_text(
+        self.dji = self.canvas.create_text(
             536.0,
             703.0,
             anchor="nw",
@@ -56,7 +56,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
-        self.canvas.create_text(
+        self.spx = self.canvas.create_text(
             273.0,
             704.0,
             anchor="nw",
@@ -64,7 +64,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
-        self.canvas.create_text(
+        self.ndx = self.canvas.create_text(
             404.0,
             704.0,
             anchor="nw",
@@ -72,7 +72,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
-        self.canvas.create_text(
+        self.total_PL = self.canvas.create_text(
             450.0,
             135.0,
             anchor="nw",
@@ -80,7 +80,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.day_PL = self.canvas.create_text(
             449.0,
             177.0,
             anchor="nw",
@@ -88,7 +88,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.openPL = self.canvas.create_text(
             450.0,
             225.0,
             anchor="nw",
@@ -96,7 +96,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.cash_balance = self.canvas.create_text(
             449.0,
             256.0,
             anchor="nw",
@@ -104,7 +104,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.market_value = self.canvas.create_text(
             449.0,
             294.0,
             anchor="nw",
@@ -112,7 +112,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.weekPL = self.canvas.create_text(
             449.0,
             370.0,
             anchor="nw",
@@ -120,7 +120,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.monthPL = self.canvas.create_text(
             449.0,
             411.0,
             anchor="nw",
@@ -128,7 +128,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.quarterPL = self.canvas.create_text(
             449.0,
             458.0,
             anchor="nw",
@@ -136,7 +136,7 @@ class Performance(tk.Frame):
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
-        self.canvas.create_text(
+        self.yearPL = self.canvas.create_text(
             447.0,
             503.0,
             anchor="nw",

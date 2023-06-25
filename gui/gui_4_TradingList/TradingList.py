@@ -50,7 +50,7 @@ class TradingList(tk.Frame):
         self.image_image_7 = self.canvas.create_image(534.0, 30.0, image=self.image_7)
         self.image_image_8 = self.canvas.create_image(328.0, 30.0, image=self.image_8)
 
-        self.canvas.create_text(
+        self.dji = self.canvas.create_text(
             536.0,
             703.0,
             anchor="nw",
@@ -59,7 +59,7 @@ class TradingList(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.spx = self.canvas.create_text(
             273.0,
             704.0,
             anchor="nw",
@@ -68,7 +68,7 @@ class TradingList(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.ndx = self.canvas.create_text(
             404.0,
             704.0,
             anchor="nw",
@@ -78,14 +78,14 @@ class TradingList(tk.Frame):
         )
 
         entry_bg_1 = self.canvas.create_image(443.0, 381.0, image=self.entry_image_1)
-        self.entry_1 = Text(
+        self.entry_1_order_list = Text(
             self.canvas,
             bd=0,
             bg="#EFF4FB",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_1.place(
+        self.entry_1_order_list.place(
             x=272.0,
             y=181.0,
             width=342.0,
@@ -93,14 +93,14 @@ class TradingList(tk.Frame):
         )
 
         entry_bg_2 = self.canvas.create_image(846.0, 381.0, image=self.entry_image_2)
-        self.entry_2 = Text(
+        self.entry_2_transactions = Text(
             self.canvas,
             bd=0,
             bg="#EFF4FB",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_2.place(
+        self.entry_2_transactions.place(
             x=675.0,
             y=181.0,
             width=342.0,
