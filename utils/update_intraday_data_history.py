@@ -20,20 +20,15 @@ Note:
 """
 
 
-stock_lst = ['qqq', 'tqqq', 'sqqq', 'soxx', 'soxl', 'soxs', 'spy', 'spxl', 'spxs', 'aapl', 'tsla', 'tsll', 'spx', 'ndx']
-
-
-yh_quoter = Quoter_Yahoo()
-wb_quoter = Quoter_Webull()
-
-
 def update_intraday_data_history(stock):
     # run every weekend
+    yh_quoter = Quoter_Yahoo()
+    wb_quoter = Quoter_Webull()
 
     stock = stock.upper()
     current_date = datetime.datetime.today().strftime('%Y%m%d')
 
-    save_dir = f'../data/{stock}/intraday/'
+    save_dir = f'data/{stock}/intraday/'
 
     # get 1min bar: yahoo quoter has more data
     response_1min_bar = yh_quoter.get_1min_bar(stock=stock, count='max', extend_trading=True)
@@ -72,7 +67,4 @@ def update_intraday_data_history(stock):
     print(f'{stock}_{current_date}_1h, done')
 
 
-for s in stock_lst:
-    update_intraday_data_history(s)
-    print(s)
 

@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -94,7 +95,7 @@ class SaveExit(tk.Frame):
             image=self.image_image_8
         )
 
-        self.canvas.create_text(
+        self.dji = self.canvas.create_text(
             536.0,
             704.0,
             anchor="nw",
@@ -103,7 +104,7 @@ class SaveExit(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.spx = self.canvas.create_text(
             273.0,
             704.0,
             anchor="nw",
@@ -112,7 +113,7 @@ class SaveExit(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.ndx = self.canvas.create_text(
             404.0,
             704.0,
             anchor="nw",
@@ -139,7 +140,7 @@ class SaveExit(tk.Frame):
             font=("ArialRoundedMTBold", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.seconds_count_down = self.canvas.create_text(
             680.0,
             342.0,
             anchor="nw",
@@ -172,7 +173,7 @@ class SaveExit(tk.Frame):
             pass
 
     def update_data(self):
-        pass
+        self.save_exit()
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")
@@ -180,3 +181,17 @@ class SaveExit(tk.Frame):
     def notify_clicked(self, event):
         print(f"{self.name}: Notify clicked")
 
+    def save_exit(self):
+        def update_countdown(count):
+            self.canvas.itemconfig(self.seconds_count_down, text=count)  # Update label text with current count
+            if count >= 0:
+                self.parent.after(1000, update_countdown, count - 1)  # Schedule next update after 1 second
+            else:
+                # Countdown finished
+                self.parent.exit_app()
+
+        # Start the countdown from 3
+        update_countdown(3)
+
+    def update_seconds_count_down(self, seconds):
+        self.canvas.itemconfig(self.seconds_count_down, text=seconds)

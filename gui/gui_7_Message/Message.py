@@ -259,22 +259,6 @@ class Message(tk.Frame):
             image=self.image_image_10
         )
 
-        # self.canvas.create_rectangle(
-        #     423.0,
-        #     441.0,
-        #     443.0,
-        #     461.0,
-        #     fill="#FFFFFF",
-        #     outline="")
-        #
-        # self.canvas.create_rectangle(
-        #     423.0,
-        #     441.0,
-        #     443.0,
-        #     461.0,
-        #     fill="#FFFFFF",
-        #     outline="")
-
         self.canvas.pack(fill="both", expand=True)
 
         self.canvas.bind("<Button-1>", self.frame_clicked)

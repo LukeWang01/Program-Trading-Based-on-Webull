@@ -5,6 +5,7 @@ APP GUI Main interface
 LukeLab, 05/2023
 
 """
+import sys
 import tkinter as tk
 
 from tkinter import PhotoImage, messagebox
@@ -61,7 +62,7 @@ class TradingApp(tk.Tk):
         self.cnt = 0
         self.event_x = -1
         self.event_y = -1
-        self.current_frame = self.frames["DashboardLogged"]
+        self.current_frame = self.frames["DashboardLogin"]
 
         # Trading State:
         self.logged_in = False
@@ -110,13 +111,19 @@ class TradingApp(tk.Tk):
         elif 545 <= y <= 595:
             self.show_frame("DownloadData")
         elif 609 <= y <= 659:
-            self.show_frame("SaveExit")
+            result = messagebox.askyesno("Confirmation", "Do you want to exit?")
+            if result:
+                self.show_frame("SaveExit")
+                self.save_app_state()
+
+            else:
+                pass
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]
         self.current_frame = frame
-        frame.update_data()
         frame.tkraise()
+        frame.update_data()
 
     # Back-end functions:
     # Trader:
@@ -155,6 +162,32 @@ class TradingApp(tk.Tk):
         else:
             self.logged_in = False
             messagebox.showinfo("Oops something went wrong", "please check username or password.              ")
+
+    def save_app_state(self):
+        pass
+
+    def exit_app(self):
+        sys.exit()
+
+    def show_info_message(self, message, duration=2000):
+        # Create a Toplevel window for the info message
+        info_window = tk.Toplevel()
+        info_window.wm_overrideredirect(True)  # Remove window decorations
+        info_window.attributes("-topmost", True)  # Keep the window on top
+        info_window.configure(bg="#333333")  # Set background color
+        info_window.attributes("-alpha", 0.9)  # Set transparency
+
+        # Create a Label widget to display the message
+        label = tk.Label(info_window, text=message, fg="white", bg="#333333", padx=10, pady=5)
+        label.pack()
+
+        # Calculate the position of the info window to be centered within the main window
+        root_x = self.winfo_rootx() + self.winfo_width() // 2 - info_window.winfo_reqwidth() // 2 + 100
+        root_y = self.winfo_rooty() + self.winfo_height() // 2 - info_window.winfo_reqheight() // 2 + 300
+        info_window.geometry(f"+{root_x}+{root_y}")
+
+        # After the specified duration, close the info window
+        info_window.after(duration, info_window.destroy)
 
 
 if __name__ == "__main__":

@@ -124,7 +124,7 @@ class DashboardLogin(tk.Frame):
             self.entry_3_email.insert(0, self.parent.trader.username)
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        self.parent.show_info_message("Message sadfasdfad")
 
     def notify_clicked(self, event):
         print(f"{self.name}: Notify clicked")

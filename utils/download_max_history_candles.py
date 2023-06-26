@@ -20,13 +20,6 @@ Note:
 """
 
 
-stock_lst = ['qqq', 'tqqq', 'sqqq', 'soxx', 'soxl', 'soxs', 'spy', 'spxl', 'spxs', 'aapl', 'tsla', 'tsll', 'spx', 'ndx']
-
-
-yh_quoter = Quoter_Yahoo()
-wb_quoter = Quoter_Webull()
-
-
 def download_max_history_candles(stock, count='max', save_format='csv'):
     """
         :param stock: ticker
@@ -35,11 +28,14 @@ def download_max_history_candles(stock, count='max', save_format='csv'):
         :return: pandas dataframe
         """
 
+    yh_quoter = Quoter_Yahoo()
+    wb_quoter = Quoter_Webull()
+
     stock = stock.upper()
     response_1h_bar = yh_quoter.get_1h_bar(stock=stock, count=count, extend_trading=True)
     response_1d_bar = yh_quoter.get_1d_bar(stock=stock, count=count, extend_trading=False)
 
-    save_dir = f'../data/{stock}/'
+    save_dir = f'data/{stock}/'
     current_date = datetime.datetime.today().strftime('%Y%m%d')
 
     if response_1h_bar.empty and response_1d_bar.empty:
@@ -54,8 +50,3 @@ def download_max_history_candles(stock, count='max', save_format='csv'):
         elif save_format == 'json':
             save_to_json(save_dir, f'{stock}_{current_date}_1h', response_1h_bar)
             save_to_json(save_dir, f'{stock}_{current_date}_1h', response_1d_bar)
-
-
-for s in stock_lst:
-    download_max_history_candles(s)
-    print(s)

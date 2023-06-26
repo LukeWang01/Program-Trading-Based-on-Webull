@@ -1,6 +1,9 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
+
+from utils.download_max_history_candles import download_max_history_candles
+from utils.update_intraday_data_history import update_intraday_data_history
 
 
 class DownloadData(tk.Frame):
@@ -94,7 +97,7 @@ class DownloadData(tk.Frame):
             image=self.image_image_8
         )
 
-        self.canvas.create_text(
+        self.dji = self.canvas.create_text(
             536.0,
             703.0,
             anchor="nw",
@@ -103,7 +106,7 @@ class DownloadData(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.spx = self.canvas.create_text(
             273.0,
             704.0,
             anchor="nw",
@@ -112,7 +115,7 @@ class DownloadData(tk.Frame):
             font=("ArialMT", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.ndx = self.canvas.create_text(
             404.0,
             704.0,
             anchor="nw",
@@ -128,14 +131,14 @@ class DownloadData(tk.Frame):
             193.5,
             image=self.entry_image_1
         )
-        self.entry_1 = Entry(
+        self.entry_1_ticker_intraday = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_1.place(
+        self.entry_1_ticker_intraday.place(
             x=395.0,
             y=181.0,
             width=192.0,
@@ -149,14 +152,14 @@ class DownloadData(tk.Frame):
             414.5,
             image=self.entry_image_2
         )
-        self.entry_2 = Entry(
+        self.entry_1_ticker_history = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_2.place(
+        self.entry_1_ticker_history.place(
             x=396.0,
             y=402.0,
             width=192.0,
@@ -170,14 +173,14 @@ class DownloadData(tk.Frame):
             380.0,
             image=self.entry_image_3
         )
-        self.entry_3 = Text(
+        self.entry_3_future_use = Text(
             self.canvas,
             bd=0,
             bg="#EFF4FB",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_3.place(
+        self.entry_3_future_use.place(
             x=669.0,
             y=180.0,
             width=342.0,
@@ -211,10 +214,32 @@ class DownloadData(tk.Frame):
         pass
 
     def download_intraday_clicked(self):
-        print(f"{self.name}: Download intraday clicked")
+        ticker_input = self.entry_1_ticker_intraday.get()
+        if ticker_input == "":
+            messagebox.showinfo("Oops something went wrong", "Please enter the ticker")
+        else:
+            stock_list = ticker_input.split(" ")
+            try:
+                for stock in stock_list:
+                    update_intraday_data_history(stock)
+                self.parent.show_info_message("Intraday data downloaded successfully")
+            except Exception as e:
+                print(e)
+                messagebox.showinfo("Oops something went wrong", "Please separate tickers with a space")
 
     def download_max_history_clicked(self):
-        print(f"{self.name}: Download max history clicked")
+        ticker_input = self.entry_1_ticker_history.get()
+        if ticker_input == "":
+            messagebox.showinfo("Oops something went wrong", "Please enter the ticker")
+        else:
+            stock_list = ticker_input.split(" ")
+            try:
+                for stock in stock_list:
+                    download_max_history_candles(stock)
+                self.parent.show_info_message("History data downloaded successfully")
+            except Exception as e:
+                print(e)
+                messagebox.showinfo("Oops something went wrong", "Please separate tickers with a space")
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")
