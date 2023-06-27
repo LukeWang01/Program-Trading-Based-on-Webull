@@ -26,22 +26,21 @@ def send_email(from_, to, msg_subject, msg_body):
         server.send_message(msg)
 
 
-def send_emails(from_, to: list, msg_subject, msg_body):
+def send_emails(from_, to, bcc: list, msg_subject, msg_body, login_email, login_password):
     # send an email to multiple recipients
-    sender_email = from_
-    receiver_emails = to    # ['recipient1@example.com', 'recipient2@example.com']
+    bcc_emails = bcc    # BCC
     message = msg_body
 
     msg = MIMEText(message)
     msg['Subject'] = msg_subject
-    msg['From'] = sender_email
-    msg['To'] = LukeLab_Email
+    msg['From'] = from_
+    msg['To'] = to
     # msg["Cc"] = ''
     # msg['Bcc'] = ', '.join(receiver_emails)
     # toaddrs = [msg['To']] + [msg['Bcc']]
 
     with smtplib.SMTP('smtp.gmail.com', 587) as server:
         server.starttls()
-        server.login(LukeLab_Email, LukeLab_Email_Pwd)
-        server.sendmail(LukeLab_Email, [LukeLab_Email] + receiver_emails, msg.as_string())
+        server.login(login_email, login_password)
+        server.sendmail(from_, [to] + bcc_emails, msg.as_string())
 

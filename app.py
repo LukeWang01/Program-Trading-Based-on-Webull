@@ -67,6 +67,13 @@ class TradingApp(tk.Tk):
         # Trading State:
         self.logged_in = False
 
+        # Email Notification State:
+        self.sender_email = ""
+        self.sender_password = ""
+        self.receiver_email_1 = ""
+        self.receiver_email_2_bcc = ""
+        self.enable_email_notify = True
+
         # Database State:
         self.db_connected = False
         self.db_name = "tradingApp.db"
@@ -161,10 +168,18 @@ class TradingApp(tk.Tk):
             self.show_frame("DashboardLogged")
         else:
             self.logged_in = False
-            messagebox.showinfo("Oops something went wrong", "please check username or password.              ")
+            messagebox.showerror("Oops something went wrong", "please check username or password.              ")
 
     def save_app_state(self):
         pass
+
+    def set_email_notification_state(self, sender_email, sender_password, receiver_email_1, receiver_email_2_bcc,
+                                     enable_email_notify):
+        self.sender_email = sender_email
+        self.sender_password = sender_password
+        self.receiver_email_1 = receiver_email_1
+        self.receiver_email_2_bcc = receiver_email_2_bcc
+        self.enable_email_notify = enable_email_notify
 
     def exit_app(self):
         sys.exit()

@@ -1,6 +1,8 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
+
+from utils.input_check import is_valid_email
 
 
 class Message(tk.Frame):
@@ -10,6 +12,8 @@ class Message(tk.Frame):
         self.name = "Message"
         self.parent = parent
         self.current = False
+
+        self.enable_notification = True
 
         # UI elements：
         OUTPUT_PATH = Path(__file__).parent
@@ -145,14 +149,14 @@ class Message(tk.Frame):
             409.5,
             image=self.entry_image_1
         )
-        self.entry_1_receiver_email = Entry(
+        self.entry_1_receiver_email_bcc = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_1_receiver_email.place(
+        self.entry_1_receiver_email_bcc.place(
             x=415.0,
             y=397.0,
             width=152.0,
@@ -192,7 +196,8 @@ class Message(tk.Frame):
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            show="*"
         )
         self.entry_3_sender_password.place(
             x=415.0,
@@ -279,21 +284,44 @@ class Message(tk.Frame):
             # frame area clicked
             if 374 <= x <= 524 and 600 <= y <= 635:
                 self.update_settings_clicked()
-            elif 423 <= x <= 443 and 441 <= y <= 461:
+            elif 430 <= x <= 453 and 439 <= y <= 465:
                 self.enable_notification_clicked()
 
     def update_data(self):
-        pass
+        self.set_message_list(self.read_message_list())
 
     def update_settings_clicked(self):
-        print(f"{self.name}: Update settings clicked")
+        sender_email = self.entry_2_sender_email.get()
+        sender_password = self.entry_3_sender_password.get()
+        receiver_email_1 = self.entry_4_receiver_email.get()
+        receiver_email_2_bcc = self.entry_1_receiver_email_bcc.get()
+        enable_email_notify = self.enable_notification
+        if is_valid_email(sender_email) and is_valid_email(receiver_email_1) and is_valid_email(receiver_email_2_bcc):
+            self.parent.set_email_notification_state(sender_email, sender_password, receiver_email_1,
+                                                     receiver_email_2_bcc, enable_email_notify)
+        else:
+            messagebox.showerror("Oops something went wrong", "Invalid email address")
 
     def enable_notification_clicked(self):
-        print(f"{self.name}: Enable notification clicked")
+        if self.enable_notification:
+            self.enable_notification = False
+            self.canvas.itemconfig(self.image_9_check_box_0, state="normal")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="hidden")
+        else:
+            self.enable_notification = True
+            self.canvas.itemconfig(self.image_9_check_box_0, state="hidden")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="normal")
 
     def msg_clicked(self, event):
         print(f"{self.name}: Message clicked")
 
     def notify_clicked(self, event):
         print(f"{self.name}: Notify clicked")
+
+    def set_message_list(self, message_list):
+        self.entry_5_message_list.delete("1.0", tk.END)
+        self.entry_5_message_list.insert("1.0", message_list)
+
+    def read_message_list(self):
+        return " "
 
