@@ -1,7 +1,8 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
+from tkinter import Canvas, Entry, Text, PhotoImage, messagebox
 
+from utils.dataIO import logging_info, logging_error
 from utils.download_max_history_candles import download_max_history_candles
 from utils.update_intraday_data_history import update_intraday_data_history
 
@@ -99,7 +100,7 @@ class DownloadData(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -108,16 +109,16 @@ class DownloadData(tk.Frame):
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -211,7 +212,7 @@ class DownloadData(tk.Frame):
                 self.download_max_history_clicked()
 
     def update_data(self):
-        pass
+        self.update_market_status()
 
     def download_intraday_clicked(self):
         ticker_input = self.entry_1_ticker_intraday.get()
@@ -223,6 +224,7 @@ class DownloadData(tk.Frame):
                 for stock in stock_list:
                     update_intraday_data_history(stock)
                 self.parent.show_info_message("Intraday data downloaded successfully")
+                logging_info(f"Intraday data downloaded successfully: {ticker_input}")
             except Exception as e:
                 print(e)
                 messagebox.showinfo("Oops something went wrong", "Please separate tickers with a space")
@@ -237,12 +239,23 @@ class DownloadData(tk.Frame):
                 for stock in stock_list:
                     download_max_history_candles(stock)
                 self.parent.show_info_message("History data downloaded successfully")
+                logging_info(f"History data downloaded successfully: {ticker_input}")
             except Exception as e:
-                print(e)
+                # print(e)
+                logging_error(str(e))
                 messagebox.showinfo("Oops something went wrong", "Please separate tickers with a space")
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # print(f"{self.name}: Message clicked")
+        # not core functionality, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # not core functionality, implement later
+        pass
+
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)

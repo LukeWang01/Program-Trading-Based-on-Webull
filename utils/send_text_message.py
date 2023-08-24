@@ -2,6 +2,7 @@ from twilio.rest import Client
 from env._secrete import twilio_account_sid, twilio_auth_token
 
 
+# For future use only
 def send_txt_message(from_, to, msg_body):
     # send text message via twilio
 

@@ -1,3 +1,4 @@
+import datetime
 import pandas
 import logging
 import os
@@ -59,5 +60,62 @@ def logging_critical(message: str):
 
 # Write trading history/log json file
 def write_trading_log_json(filename: str, trading_data: dict):
-    with open(filename, "a") as f:
-        f.write(json.dumps(trading_data) + "\n")
+    try:
+        with open(filename, 'r') as json_file:
+            existing_data = json.load(json_file)
+    except (json.JSONDecodeError, FileNotFoundError):
+        existing_data = []
+
+    # Append new data to the existing list
+    existing_data.append(trading_data)
+
+    # Write the updated list back to the file
+    with open(filename, 'w') as json_file:
+        json.dump(existing_data, json_file, indent=4)
+
+
+def read_log_msg():
+    # Specify the path to the log file
+    log_file_path = 'app_running.log'
+    msg = ''
+    # Open the log file for reading
+    with open(log_file_path, 'r') as log_file:
+        # Read the entire content of the file
+        for line in log_file:
+            if 'INFO' in line or 'ERROR' in line or 'CRITICAL' in line:
+                msg += line
+
+    # Print or process the content
+    return msg
+
+
+def read_log_DEBUG():
+    # Specify the path to the log file
+    log_file_path = 'app_running.log'
+    debug = ''
+    # Open the log file for reading
+    with open(log_file_path, 'r') as log_file:
+        # Read the entire content of the file
+        for line in log_file:
+            if 'DEBUG' in line:
+                debug += line
+
+    # Print or process the content
+    return debug
+
+
+def get_current_time():
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime('%Y-%m-%d %H:%M:%S') + '  |  ' + f'{current_time.microsecond // 1000:03d} ms'
+    return formatted_time
+
+
+def is_market_hours():
+    current_time = datetime.datetime.now().time()
+    market_open_time = datetime.time(9, 30)  # Regular market open time (9:30 AM)
+    market_close_time = datetime.time(16, 0)  # Regular market close time (4:00 PM)
+
+    if market_open_time <= current_time <= market_close_time:
+        return True
+    else:
+        return False

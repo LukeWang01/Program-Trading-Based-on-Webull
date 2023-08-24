@@ -2,6 +2,8 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import Canvas, Text, PhotoImage
 
+from utils.dataIO import logging_info
+
 
 class TradingList(tk.Frame):
     def __init__(self, parent):
@@ -52,7 +54,7 @@ class TradingList(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -61,16 +63,16 @@ class TradingList(tk.Frame):
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -119,22 +121,101 @@ class TradingList(tk.Frame):
         y = event.y
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
+            # print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
+            # print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
             pass
 
     def update_data(self):
-        pass
+        self.update_market_status()
+        self.set_order_list()
+        self.set_transactions()
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # print(f"{self.name}: Message clicked")
+        # not core function, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # not core function, implement later
+        pass
+
+    def get_order_list(self):
+        data = self.parent.trader.get_pending_orders_history()
+        res_str = ''
+        if data:
+            for order in data:
+                line_str = ''
+                order_date = f"Create Date: {order['orders'][0]['createTime']}\n"
+                order_list_header = 'Ticker, Action, Qty, Price, Amount\n'
+                Ticker = order['orders'][0]['symbol']
+                Action = order['orders'][0]['action']
+                Qty = order['orders'][0]['totalQuantity']
+                Price = order['orders'][0]['lmtPrice']
+                Amount = order['orders'][0]['placeAmount']
+                tmp_line = order_list_header + f"{Ticker}, {Action}, {Qty}, {Price}, {Amount}\n"
+                column_widths = [8, 8, 5, 8, 10]
+                formatted = ''
+                # Format and print the data with aligned columns
+                for line in tmp_line.split("\n"):
+                    cells = line.split(",")
+                    formatted += "".join(cell.strip().ljust(column_width) for cell, column_width in zip(cells, column_widths)) + "\n"
+                line_str += order_date + formatted + '-----------------------------' + '\n'
+                res_str += line_str
+            logging_info('Get trader order list successfully')
+            return res_str
+        else:
+            return 'No pending orders'
+
+    def get_transactions(self):
+        data = self.parent.trader.get_filled_orders_history()
+        res_str = ''
+        if data:
+            for order in data:
+                if order['status'] == 'Filled':
+                    line_str = ''
+                    order_date = f"Filled Date: {order['orders'][0]['filledTime']}\n"
+                    order_list_header = 'Ticker, Action, Qty, Price, Amount\n'
+                    Ticker = order['orders'][0]['symbol']
+                    Action = order['orders'][0]['action']
+                    Qty = order['orders'][0]['filledQuantity']
+                    Price = order['orders'][0]['avgFilledPrice']
+                    Amount = order['orders'][0]['filledAmount']
+                    tmp_line = order_list_header + f"{Ticker}, {Action}, {Qty}, {Price}, {Amount}\n"
+                    column_widths = [8, 8, 5, 8, 10]
+                    formatted = ''
+                    # Format and print the data with aligned columns
+                    for line in tmp_line.split("\n"):
+                        cells = line.split(",")
+                        formatted += "".join(
+                            cell.strip().ljust(column_width) for cell, column_width in zip(cells, column_widths)) + "\n"
+                    line_str += order_date + formatted + '-----------------------------' + '\n'
+                    res_str += line_str
+            logging_info('Get trader transaction list successfully')
+            return res_str
+        else:
+            return 'No filled orders'
+
+    def set_order_list(self):
+        order_list = self.get_order_list()
+        self.entry_1_order_list.delete(1.0, tk.END)
+        self.entry_1_order_list.insert(1.0, order_list)
+        # self.entry_1_order_list.see(tk.END)
+
+    def set_transactions(self):
+        transactions = self.get_transactions()
+        self.entry_2_transactions.delete(1.0, tk.END)
+        self.entry_2_transactions.insert(1.0, transactions)
+        # self.entry_2_transactions.see(tk.END)
+
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
 

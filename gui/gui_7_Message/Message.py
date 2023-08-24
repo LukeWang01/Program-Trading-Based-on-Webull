@@ -1,7 +1,8 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
+from tkinter import Canvas, Entry, Text, PhotoImage, messagebox
 
+from utils.dataIO import logging_info, logging_warning
 from utils.input_check import is_valid_email
 
 
@@ -13,7 +14,7 @@ class Message(tk.Frame):
         self.parent = parent
         self.current = False
 
-        self.enable_notification = True
+        self.enable_notification = 1    # matches with the default value in the database
 
         # UI elements：
         OUTPUT_PATH = Path(__file__).parent
@@ -99,7 +100,7 @@ class Message(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -108,16 +109,16 @@ class Message(tk.Frame):
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -288,7 +289,23 @@ class Message(tk.Frame):
                 self.enable_notification_clicked()
 
     def update_data(self):
-        self.set_message_list(self.read_message_list())
+        self.update_market_status()
+
+        self.set_account_id(self.parent.trader.account_id)
+        self.set_account_type(self.parent.trader.account_type)
+
+        self.set_sender_email(self.parent.sender_email)
+        self.set_sender_password(self.parent.sender_password)
+        self.set_receiver_email_1(self.parent.receiver_email_1)
+        self.set_receiver_email_2_bcc(self.parent.receiver_email_2_bcc)
+        self.enable_notification = self.parent.enable_email_notify
+        if self.enable_notification:
+            self.canvas.itemconfig(self.image_9_check_box_0, state="hidden")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="normal")
+        else:
+            self.canvas.itemconfig(self.image_9_check_box_0, state="normal")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="hidden")
+        self.update_message_list()
 
     def update_settings_clicked(self):
         sender_email = self.entry_2_sender_email.get()
@@ -299,29 +316,71 @@ class Message(tk.Frame):
         if is_valid_email(sender_email) and is_valid_email(receiver_email_1) and is_valid_email(receiver_email_2_bcc):
             self.parent.set_email_notification_state(sender_email, sender_password, receiver_email_1,
                                                      receiver_email_2_bcc, enable_email_notify)
+            logging_info("Email notification settings updated")
         else:
             messagebox.showerror("Oops something went wrong", "Invalid email address")
 
     def enable_notification_clicked(self):
         if self.enable_notification:
-            self.enable_notification = False
+            self.enable_notification = 0
             self.canvas.itemconfig(self.image_9_check_box_0, state="normal")
             self.canvas.itemconfig(self.image_10_check_box_1, state="hidden")
+            # print(self.enable_notification)
         else:
-            self.enable_notification = True
+            self.enable_notification = 1
             self.canvas.itemconfig(self.image_9_check_box_0, state="hidden")
             self.canvas.itemconfig(self.image_10_check_box_1, state="normal")
+            # print(self.enable_notification)
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # print(f"{self.name}: Message clicked")
+        # not core functionality, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # not core functionality, implement later
+        pass
 
-    def set_message_list(self, message_list):
-        self.entry_5_message_list.delete("1.0", tk.END)
-        self.entry_5_message_list.insert("1.0", message_list)
+    def update_message_list(self):
+        message_list = self.read_message_list()
+        self.entry_5_message_list.delete(1.0, tk.END)
+        self.entry_5_message_list.insert(1.0, message_list)
+        self.entry_5_message_list.see(tk.END)
 
     def read_message_list(self):
-        return " "
+        try:
+            with open("message_list.txt", "r") as file:
+                message_list = file.read()
+            return message_list
+        except FileNotFoundError:
+            logging_warning("message_list.txt not found, returning empty string")
+            return ""
+
+    def set_sender_email(self, sender_email):
+        self.entry_2_sender_email.delete(0, tk.END)
+        self.entry_2_sender_email.insert(0, sender_email)
+
+    def set_sender_password(self, sender_password):
+        self.entry_3_sender_password.delete(0, tk.END)
+        self.entry_3_sender_password.insert(0, sender_password)
+
+    def set_receiver_email_1(self, receiver_email_1):
+        self.entry_4_receiver_email.delete(0, tk.END)
+        self.entry_4_receiver_email.insert(0, receiver_email_1)
+
+    def set_receiver_email_2_bcc(self, receiver_email_2_bcc):
+        self.entry_1_receiver_email_bcc.delete(0, tk.END)
+        self.entry_1_receiver_email_bcc.insert(0, receiver_email_2_bcc)
+
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
+
+    def set_account_id(self, account_id):
+        self.canvas.itemconfig(self.account_id, text=account_id)
+
+    def set_account_type(self, account_type):
+        self.canvas.itemconfig(self.account_type, text=account_type)
 

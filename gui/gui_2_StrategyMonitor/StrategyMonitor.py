@@ -1,15 +1,27 @@
+import os
 import tkinter as tk
 from pathlib import Path
-from tkinter import Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Canvas, Entry, Text, PhotoImage, filedialog, messagebox
+
+import schedule
+
+from strategy.Strategy import Strategy
+from utils.dataIO import logging_info
 
 
 class StrategyMonitor(tk.Frame):
     def __init__(self, parent):
         # Initialize the frame
         tk.Frame.__init__(self, parent)
+
         self.name = "StrategyMonitor"
         self.parent = parent
         self.current = False
+
+        self.imported_list = []
+        self.running_list = []
+        self.strategy_obj_list = []
+        # self.strategy_job_list = []
 
         # UI elements：
         OUTPUT_PATH = Path(__file__).parent
@@ -56,7 +68,7 @@ class StrategyMonitor(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -65,16 +77,16 @@ class StrategyMonitor(tk.Frame):
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -137,30 +149,118 @@ class StrategyMonitor(tk.Frame):
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
-            if 427 <= x <= 551 and 234 <= y <= 259:
+            if 425 <= x <= 551 and 225 <= y <= 251:
                 self.select_strategy()
-            elif 285 <= x <= 409 and 596 <= y <= 626:
+            elif 285 <= x <= 409 and 588 <= y <= 617:
                 self.run_strategy()
             elif 444 <= x <= 568 and 596 <= y <= 626:
                 self.cancel_strategy()
 
     def update_data(self):
-        pass
+        self.update_market_status()
 
     def select_strategy(self):
-        print(f"{self.name}: Select strategy clicked")
+        relative_path = "strategy"  # Relative path of the folder under the current folder
+        initial_dir = os.path.join(os.getcwd(), relative_path)
+        file_path = filedialog.askopenfilename(title="Select a file", initialdir=initial_dir,
+                                               filetypes=[("Python files", "*.py"), ("All files", "*.*")])
+
+        if file_path:
+            file_name = os.path.basename(file_path)
+            print("Selected file:", file_name)
+            if file_name not in self.imported_list:
+                self.set_imported_list(file_name)
+                self.imported_list.append(file_name)
+                logging_info(f"Imported strategy: {file_name}")
 
     def run_strategy(self):
-        print(f"{self.name}: Run strategy clicked")
+        if self.parent.trader.is_trader_logged_in():
+            if self.imported_list:
+                if set(self.imported_list) == set(self.running_list):
+                    messagebox.showinfo("Oops", "All strategies are running!")
+                else:
+                    for file_name in self.imported_list:
+                        if file_name in self.running_list:
+                            continue
+                        strategy_obj = self.get_strategy_obj(file_name)
+                        schedule.every().minute.at(":01").do(strategy_obj.strategy_decision).tag('strategy_jobs')
+
+                        self.running_list.append(file_name)
+                        self.strategy_obj_list.append(strategy_obj)
+                        logging_info(f"Add running strategy: {file_name}")
+                        # print(self.imported_list)
+                        # print(self.running_list)
+                        # print(self.strategy_obj_list)
+            else:
+                messagebox.showinfo("Oops", "Please select a strategy first!")
+        else:
+            self.parent.logged_in = False
+            messagebox.showinfo("Oops", "To run the strategy, please login first!")
+
+    def get_strategy_obj(self, filename) -> Strategy:
+        strategy_name = filename[:-3]
+        namespace = {}
+        new_strategy_code = f"""
+from strategy.{strategy_name} import {strategy_name}
+strategy_instance = {strategy_name}()
+"""
+        # dynamic code should start without indentation
+        exec(new_strategy_code, namespace)
+        strategy_obj = namespace['strategy_instance']
+        strategy_obj.parent = self.parent
+        strategy_obj.update_strategy_profile()
+        return strategy_obj
 
     def cancel_strategy(self):
-        print(f"{self.name}: Cancel strategy clicked")
+        schedule.clear('strategy_jobs')
+        self.imported_list = []
+        self.running_list = []
+        self.strategy_obj_list = []
+        self.empty_imported_list()
+        self.parent.show_info_message("All strategies are cancelled!")
+        logging_info("Strategies cancelled!")
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # print(f"{self.name}: Message clicked")
+        # Not core function, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # Not core function, implement later
+        pass
 
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
 
+    def set_quoter_stream(self, text):
+        txt = self.get_quoter_stream() + text
+        self.entry_2_quoter_stream.delete(1.0, tk.END)
+        self.entry_2_quoter_stream.insert(1.0, txt)
+        self.entry_2_quoter_stream.see(tk.END)
 
+    def get_quoter_stream(self):
+        return self.entry_2_quoter_stream.get(1.0, tk.END)
+
+    def set_strategy_stream(self, text):
+        txt = self.get_strategy_stream() + text
+        self.entry_1_strategy_stream.delete(1.0, tk.END)
+        self.entry_1_strategy_stream.insert(1.0, txt)
+        self.entry_1_strategy_stream.see(tk.END)
+
+    def get_strategy_stream(self):
+        return self.entry_1_strategy_stream.get(1.0, tk.END)
+
+    def set_imported_list(self, text):
+        txt = self.get_imported_list() + text
+        self.entry_3_imported_list.delete(1.0, tk.END)
+        self.entry_3_imported_list.insert(1.0, txt)
+        self.entry_3_imported_list.see(tk.END)
+
+    def empty_imported_list(self):
+        self.entry_3_imported_list.delete(1.0, tk.END)
+
+    def get_imported_list(self):
+        return self.entry_3_imported_list.get(1.0, tk.END)

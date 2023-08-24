@@ -1,6 +1,6 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Canvas, Text, PhotoImage
+from tkinter import Canvas, PhotoImage
 
 
 class Performance(tk.Frame):
@@ -50,7 +50,7 @@ class Performance(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -58,15 +58,15 @@ class Performance(tk.Frame):
         )
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -155,24 +155,75 @@ class Performance(tk.Frame):
     def frame_clicked(self, event):
         x = event.x
         y = event.y
-        print(f"{self.name} clicked, x: {x} y: {y}")
+        # print(f"{self.name} clicked, x: {x} y: {y}")
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
+            # print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
+            # print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
             pass
 
     def update_data(self):
-        pass
+        self.update_market_status()
+        self.parent.trader.update_account_info()
+        self.calculate_performance()
+        self.set_total_PL(' - ')
+        self.set_openPL(f'{self.parent.trader.openPL}    {self.parent.trader.openPL_pct}')
+        self.set_day_PL(f'{self.parent.trader.dayPL}    {self.parent.trader.dayPL_pct}')
+        self.set_cash_balance(self.parent.trader.cash_balance)
+        self.set_market_value(self.parent.trader.market_value)
+        self.set_weekPL(' - ')
+        self.set_monthPL(' - ')
+        self.set_quarterPL(' - ')
+        self.set_yearPL(' - ')
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
-
+        # print(f"{self.name}: Message clicked")
+        # Not core functionality, implement later
+        pass
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # Not core functionality, implement later
+        pass
+
+    def calculate_performance(self):
+        # TODO: calculate performance
+        pass
+
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
+
+    def set_total_PL(self, value):
+        self.canvas.itemconfig(self.total_PL, text=value)
+
+    def set_day_PL(self, value):
+        self.canvas.itemconfig(self.day_PL, text=value)
+
+    def set_openPL(self, value):
+        self.canvas.itemconfig(self.openPL, text=value)
+
+    def set_cash_balance(self, value):
+        self.canvas.itemconfig(self.cash_balance, text=value)
+
+    def set_market_value(self, value):
+        self.canvas.itemconfig(self.market_value, text=value)
+
+    def set_weekPL(self, value):
+        self.canvas.itemconfig(self.weekPL, text=value)
+
+    def set_monthPL(self, value):
+        self.canvas.itemconfig(self.monthPL, text=value)
+
+    def set_quarterPL(self, value):
+        self.canvas.itemconfig(self.quarterPL, text=value)
+
+    def set_yearPL(self, value):
+        self.canvas.itemconfig(self.yearPL, text=value)
+

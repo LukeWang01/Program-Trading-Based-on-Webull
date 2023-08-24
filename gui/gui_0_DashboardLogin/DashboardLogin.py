@@ -1,7 +1,8 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Canvas, Entry, PhotoImage, simpledialog, messagebox
+from tkinter import Canvas, Entry, PhotoImage, simpledialog, messagebox, END
 
+from utils.dataIO import logging_info
 from utils.input_check import is_valid_email, is_valid_phone_number, is_valid_pid
 
 
@@ -57,15 +58,15 @@ class DashboardLogin(tk.Frame):
         self.image_7 = self.canvas.create_image(534.0, 30.0, image=self.image_image_7)
         self.image_8 = self.canvas.create_image(328.0, 30.0, image=self.image_image_8)
 
-        self.entry_1_PID = Entry(
+        self.entry_3_email = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0,
-            show="*"
+            font=("Arial Rounded MT Bold", 10)
         )
-        self.entry_1_PID.place(x=688.0, y=474.0, width=259.0, height=33.0)
+        self.entry_3_email.place(x=688.0, y=287.0, width=259.0, height=38.0)
 
         self.entry_2_password = Entry(
             self.canvas,
@@ -77,22 +78,24 @@ class DashboardLogin(tk.Frame):
         )
         self.entry_2_password.place(x=688.0, y=380.0, width=259.0, height=33.0)
 
-        self.entry_3_email = Entry(
+        self.entry_1_PID = Entry(
             self.canvas,
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
             highlightthickness=0,
-            font=("Arial Rounded MT Bold", 10)
+            show="*"
         )
-        self.entry_3_email.place(x=688.0, y=287.0, width=259.0, height=38.0)
+        self.entry_1_PID.place(x=688.0, y=474.0, width=259.0, height=33.0)
 
         self.canvas.pack(fill="both", expand=True)
 
         self.canvas.bind("<Button-1>", self.frame_clicked)
+        self.canvas.bind("<Return>", self.login_clicked)
 
         self.canvas.tag_bind(self.image_3_msg, "<Button-1>", self.msg_clicked)
         self.canvas.tag_bind(self.image_4_notify, "<Button-1>", self.notify_clicked)
+        self.entry_1_PID.bind("<Return>", lambda event: self.login_clicked())
 
     def frame_clicked(self, event):
         x = event.x
@@ -120,14 +123,17 @@ class DashboardLogin(tk.Frame):
 
     def update_data(self):
         if self.parent.trader.username:
-            self.entry_3_email.delete(0, "END")
+            self.entry_3_email.delete(0, END)
             self.entry_3_email.insert(0, self.parent.trader.username)
+            self.entry_2_password.focus()
+        else:
+            self.entry_3_email.focus()
 
     def msg_clicked(self, event):
-        self.parent.show_info_message("Message sadfasdfad")
+        self.parent.show_info_message("Message example")
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        self.parent.show_info_message("Message example")
 
     def device_name_clicked(self):
         input_value = simpledialog.askstring("Setup device name",
@@ -157,9 +163,11 @@ class DashboardLogin(tk.Frame):
             self.parent.setup_uuid(input_value)
 
     def instruction_clicked(self):
+        # TODO: add instruction link after github page is created
         print(f"{self.name}: Instruction clicked")
 
     def login_clicked(self):
+        logging_info("Login triggered")
         email = self.entry_3_email.get()
         password = self.entry_2_password.get()
         pid = self.entry_1_PID.get()
@@ -167,5 +175,3 @@ class DashboardLogin(tk.Frame):
             self.parent.login(email, password, pid)
         else:
             messagebox.showinfo("Oops something went wrong", "incorrect email, phone number, or PID format")
-
-

@@ -1,6 +1,9 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Canvas, Entry, Text, PhotoImage
+from tkinter import Canvas, Entry, Text, PhotoImage, messagebox
+
+from utils.dataIO import logging_info
+from utils.input_check import is_valid_email
 
 
 class TreaderProfile(tk.Frame):
@@ -10,6 +13,8 @@ class TreaderProfile(tk.Frame):
         self.name = "TreaderProfile"
         self.parent = parent
         self.current = False
+
+        self.save_user_email = 1
 
         # UI elements：
         OUTPUT_PATH = Path(__file__).parent
@@ -95,29 +100,29 @@ class TreaderProfile(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
-            font=("ArialMT", 12)
+            font=("ArialMT", 12 * -1)
         )
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
-            font=("ArialMT", 12)
+            font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
-            font=("ArialMT", 12)
+            font=("ArialMT", 12 * -1)
         )
 
         self.account_type = self.canvas.create_text(
@@ -192,7 +197,8 @@ class TreaderProfile(tk.Frame):
             bd=0,
             bg="#FFFFFF",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            show="*"
         )
         self.entry_3_sender_password.place(
             x=425.0,
@@ -283,18 +289,87 @@ class TreaderProfile(tk.Frame):
                 self.save_user_email_clicked()
 
     def update_data(self):
-        pass
+        self.update_market_status()
+
+        self.set_account_id(self.parent.trader.account_id)
+        self.set_account_type(self.parent.trader.account_type)
+
+        self.set_sender_email(self.parent.sender_email)
+        self.set_sender_password(self.parent.sender_password)
+        self.set_receiver_email_1(self.parent.receiver_email_1)
+        self.save_user_email = self.parent.save_user_email
+        if self.save_user_email:
+            self.canvas.itemconfig(self.image_9_check_box_0, state="hidden")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="normal")
+        else:
+            self.canvas.itemconfig(self.image_9_check_box_0, state="normal")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="hidden")
+        self.set_PID_expired()
 
     def save_user_email_clicked(self):
-        print(f"{self.name}: Save user email clicked")
+        if self.save_user_email:
+            self.save_user_email = 0
+            self.canvas.itemconfig(self.image_9_check_box_0, state="normal")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="hidden")
+            # print(self.save_user_email)
+        else:
+            self.save_user_email = 1
+            self.canvas.itemconfig(self.image_9_check_box_0, state="hidden")
+            self.canvas.itemconfig(self.image_10_check_box_1, state="normal")
+            # print(self.save_user_email)
 
     def update_profile_clicked(self):
-        print(f"{self.name}: Update profile clicked")
+        # print(f"{self.name}: Update profile clicked")
+        sender_email = self.entry_2_sender_email.get()
+        sender_password = self.entry_3_sender_password.get()
+        receiver_email_1 = self.entry_4_receiver_email.get()
+
+        save_user_email = self.save_user_email
+        pid_expire = self.entry_1_PID_expired.get()
+        try:
+            pid_expire = int(pid_expire)
+            if is_valid_email(sender_email) and is_valid_email(receiver_email_1):
+                self.parent.set_trader_profile_state(sender_email, sender_password, receiver_email_1, save_user_email,
+                                                     pid_expire)
+                logging_info("Update profile success")
+            else:
+                messagebox.showerror("Oops something went wrong", "Invalid email address")
+        except:
+            messagebox.showerror("Oops something went wrong", "Invalid PID expire input, must be integer")
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # Not core feature, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # Not core feature, implement later
+        pass
 
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
 
+    def set_sender_email(self, sender_email):
+        self.entry_2_sender_email.delete(0, tk.END)
+        self.entry_2_sender_email.insert(0, sender_email)
+
+    def set_sender_password(self, sender_password):
+        self.entry_3_sender_password.delete(0, tk.END)
+        self.entry_3_sender_password.insert(0, sender_password)
+
+    def set_receiver_email_1(self, receiver_email_1):
+        self.entry_4_receiver_email.delete(0, tk.END)
+        self.entry_4_receiver_email.insert(0, receiver_email_1)
+
+    def set_PID_expired(self):
+        time_out = self.parent.PID_timeout
+        self.entry_1_PID_expired.delete(0, tk.END)
+        self.entry_1_PID_expired.insert(0, str(time_out))
+
+    def set_account_id(self, account_id):
+        self.canvas.itemconfig(self.account_id, text=account_id)
+
+    def set_account_type(self, account_type):
+        self.canvas.itemconfig(self.account_type, text=account_type)

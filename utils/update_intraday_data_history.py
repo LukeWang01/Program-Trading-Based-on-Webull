@@ -2,7 +2,7 @@ import datetime
 
 from quoter.quoter_Webull import Quoter_Webull
 from quoter.quoter_Yahoo import Quoter_Yahoo
-from utils.dataIO import save_to_csv, save_to_xls, save_to_json, logging_error
+from utils.dataIO import save_to_csv
 
 """ 
 Download stock history data:

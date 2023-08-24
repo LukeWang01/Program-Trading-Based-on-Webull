@@ -1,8 +1,4 @@
 from webull import webull
-import datetime
-import time
-import pandas as pd
-import yfinance as yf
 
 from quoter.Quoter import Quoter
 from utils.dataIO import logging_info, logging_error, logging_warning

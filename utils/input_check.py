@@ -2,6 +2,7 @@ import re
 
 
 def is_valid_email(email):
+    # TODO: check email if is a list of emails
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(pattern, email) is not None
 

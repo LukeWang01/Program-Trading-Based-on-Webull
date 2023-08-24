@@ -1,7 +1,8 @@
-import time
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Canvas, PhotoImage
+
+from utils.dataIO import logging_info
 
 
 class SaveExit(tk.Frame):
@@ -97,7 +98,7 @@ class SaveExit(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -106,16 +107,16 @@ class SaveExit(tk.Frame):
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -173,13 +174,18 @@ class SaveExit(tk.Frame):
             pass
 
     def update_data(self):
+        self.update_market_status()
         self.save_exit()
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # print(f"{self.name}: Message clicked")
+        # not core functionality, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # not core functionality, implement later
+        pass
 
     def save_exit(self):
         def update_countdown(count):
@@ -188,6 +194,7 @@ class SaveExit(tk.Frame):
                 self.parent.after(1000, update_countdown, count - 1)  # Schedule next update after 1 second
             else:
                 # Countdown finished
+                logging_info("Exiting app")
                 self.parent.exit_app()
 
         # Start the countdown from 3
@@ -195,3 +202,8 @@ class SaveExit(tk.Frame):
 
     def update_seconds_count_down(self, seconds):
         self.canvas.itemconfig(self.seconds_count_down, text=seconds)
+
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)

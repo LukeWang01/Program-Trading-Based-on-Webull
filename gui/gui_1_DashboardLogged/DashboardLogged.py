@@ -1,6 +1,8 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Canvas, Text, PhotoImage
+
+from utils.format_str import format_financial_number
 
 
 class DashboardLogged(tk.Frame):
@@ -52,7 +54,7 @@ class DashboardLogged(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            705.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -61,16 +63,16 @@ class DashboardLogged(tk.Frame):
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            705.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            705.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -79,7 +81,7 @@ class DashboardLogged(tk.Frame):
 
         self.text_order_pending = self.canvas.create_text(
             395.0,
-            326.0,
+            320.0,
             anchor="nw",
             text="88888",
             fill="#64748B",
@@ -87,7 +89,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.text_net_account_value = self.canvas.create_text(
-            468.0,
+            420.0,
             521.0,
             anchor="nw",
             text="88888",
@@ -96,7 +98,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.text_cash_balance = self.canvas.create_text(
-            469.0,
+            420.0,
             559.0,
             anchor="nw",
             text="88888",
@@ -105,7 +107,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.text_market_value = self.canvas.create_text(
-            469.0,
+            420.0,
             599.0,
             anchor="nw",
             text="88888",
@@ -114,7 +116,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.text_dayPL = self.canvas.create_text(
-            395.0,
+            370.0,
             399.0,
             anchor="nw",
             text="888.88",
@@ -123,7 +125,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.text_openPL = self.canvas.create_text(
-            395.0,
+            370.0,
             444.0,
             anchor="nw",
             text="888.88",
@@ -132,7 +134,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.text_dayPL_pct = self.canvas.create_text(
-            469.0,
+            465.0,
             399.0,
             anchor="nw",
             text="8.88%",
@@ -141,7 +143,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.text_openPL_pct = self.canvas.create_text(
-            469.0,
+            465.0,
             444.0,
             anchor="nw",
             text="8.88%",
@@ -186,7 +188,7 @@ class DashboardLogged(tk.Frame):
         )
 
         self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
-        self.entry_bg_1 = self.canvas.create_image(839.0, 399.5, image=self.entry_image_1)
+        self.entry_bg_1 = self.canvas.create_image(790.0, 400.0, image=self.entry_image_1)
         self.entry_1_my_positions = Text(
             self.canvas,
             bd=0,
@@ -194,7 +196,7 @@ class DashboardLogged(tk.Frame):
             fg="#000716",
             highlightthickness=0
         )
-        self.entry_1_my_positions.place(x=670.0, y=194.0, width=338.0, height=409.0)
+        self.entry_1_my_positions.place(x=545.0, y=190.0, width=490.0, height=420.0)
 
         self.canvas.pack(fill="both", expand=True)
 
@@ -217,25 +219,31 @@ class DashboardLogged(tk.Frame):
             pass
 
     def update_data(self):
+        self.update_market_status()
+        self.parent.trader.update_account_info()
         self.update_text_email(self.parent.trader.username)
         self.update_text_account_id(self.parent.trader.account_id)
         self.update_text_order_placed(self.parent.trader.order_placed)
         self.update_text_order_filled(self.parent.trader.order_filled)
         self.update_text_order_pending(self.parent.trader.order_pending)
         self.update_text_openPL_pct(self.parent.trader.openPL_pct)
-        self.update_text_openPL(self.parent.trader.openPL)
+        self.update_text_openPL(format_financial_number(self.parent.trader.openPL))
         self.update_text_dayPL_pct(self.parent.trader.dayPL_pct)
         self.update_text_dayPL(self.parent.trader.dayPL)
-        self.update_text_market_value(self.parent.trader.market_value)
-        self.update_text_cash_balance(self.parent.trader.cash_balance)
-        self.update_text_net_account_value(self.parent.trader.net_account_value)
+        self.update_text_market_value(format_financial_number(self.parent.trader.market_value))
+        self.update_text_cash_balance(format_financial_number(self.parent.trader.cash_balance))
+        self.update_text_net_account_value(format_financial_number(self.parent.trader.net_account_value))
         self.update_entry_my_positions(self.parent.trader.my_positions)
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # print(f"{self.name}: Message clicked")
+        # Not core functionality, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # Not core functionality, implement later
+        pass
 
     def update_text_email(self, text):
         self.canvas.itemconfig(self.text_email, text=text)
@@ -276,4 +284,9 @@ class DashboardLogged(tk.Frame):
 
     def update_text_order_pending(self, text):
         self.canvas.itemconfig(self.text_order_pending, text=text)
+
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
 

@@ -5,7 +5,7 @@ import simpleaudio as sa
 
 def order_placed():
     # Load the sound file
-    wave_obj = sa.WaveObject.from_wave_file('../audio/order_placed.wav')
+    wave_obj = sa.WaveObject.from_wave_file('audio/order_placed.wav')
 
     # Play the sound file
     play_obj = wave_obj.play()
@@ -16,7 +16,7 @@ def order_placed():
 
 def strategy_notified():
     # Load the sound file
-    wave_obj = sa.WaveObject.from_wave_file('../audio/strategy_notified.wav')
+    wave_obj = sa.WaveObject.from_wave_file('audio/strategy_notified.wav')
 
     # Play the sound file
     play_obj = wave_obj.play()

@@ -1,4 +1,24 @@
 # This file defines the Quoter class, which is the base class for all quoters.
+import yfinance as yf
+
+
+def get_market_index_real_time_price():
+    symbols = ["^IXIC", "^GSPC", "^DJI"]  # Nasdaq, S&P500, Dow Jones
+
+    indices = yf.Tickers(symbols)
+    latest_prices = {}
+
+    for symbol in symbols:
+        index = indices.tickers[symbol]
+        latest_data = index.history(period="1d")
+
+        if not latest_data.empty:
+            latest_price = latest_data["Close"].iloc[-1]
+            latest_prices[symbol] = latest_price
+        else:
+            latest_prices[symbol] = None
+
+    return latest_prices
 
 
 class Quoter:

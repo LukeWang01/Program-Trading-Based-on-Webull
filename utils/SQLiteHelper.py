@@ -7,6 +7,8 @@ class SQLiteHelper:
         self.conn = None
         self.cursor = None
         self.init_trader_info()
+        self.init_email_notification_table()
+        self.init_trader_profile_table()
         # self.init_
 
     def connect(self):
@@ -65,6 +67,73 @@ class SQLiteHelper:
             self.insert_data(table_name, {"email": "", "access_token": "", "device_name": "", "did": "", "uuid": ""})
         self.close_connection()
 
+    def init_email_notification_table(self):
+        self.connect()
+        table_name = "email_notification"
+        columns = "sender_email TEXT, sender_password TEXT, " \
+                  "receiver_email_1 TEXT, receiver_email_2_bcc TEXT, enable_email_notify INTEGER"
+        if not self.table_exists(table_name):
+            self.create_table(table_name, columns)
+            self.insert_data(table_name, {"sender_email": "", "sender_password": "",
+                                          "receiver_email_1": "", "receiver_email_2_bcc": "",
+                                          "enable_email_notify": ""})
+        self.close_connection()
+
+    def get_sender_email(self):
+        self.connect()
+        data = self.get_data("email_notification", "sender_email")
+        self.close_connection()
+        return data[0][0]
+
+    def update_sender_email(self, sender_email):
+        self.connect()
+        self.update_data("email_notification", {"sender_email": sender_email}, "ROWID = 1")
+        self.close_connection()
+
+    def get_sender_password(self):
+        self.connect()
+        data = self.get_data("email_notification", "sender_password")
+        self.close_connection()
+        return data[0][0]
+
+    def update_sender_password(self, sender_password):
+        self.connect()
+        self.update_data("email_notification", {"sender_password": sender_password}, "ROWID = 1")
+        self.close_connection()
+
+    def get_receiver_email_1(self):
+        self.connect()
+        data = self.get_data("email_notification", "receiver_email_1")
+        self.close_connection()
+        return data[0][0]
+
+    def update_receiver_email_1(self, receiver_email_1):
+        self.connect()
+        self.update_data("email_notification", {"receiver_email_1": receiver_email_1}, "ROWID = 1")
+        self.close_connection()
+
+    def get_receiver_email_2_bcc(self):
+        self.connect()
+        data = self.get_data("email_notification", "receiver_email_2_bcc")
+        self.close_connection()
+        return data[0][0]
+
+    def update_receiver_email_2_bcc(self, receiver_email_2_bcc):
+        self.connect()
+        self.update_data("email_notification", {"receiver_email_2_bcc": receiver_email_2_bcc}, "ROWID = 1")
+        self.close_connection()
+
+    def get_enable_email_notify(self):
+        self.connect()
+        data = self.get_data("email_notification", "enable_email_notify")
+        self.close_connection()
+        return data[0][0]
+
+    def update_enable_email_notify(self, enable_email_notify):
+        self.connect()
+        self.update_data("email_notification", {"enable_email_notify": enable_email_notify}, "ROWID = 1")
+        self.close_connection()
+
     def get_device_name(self):
         self.connect()
         data = self.get_data("trader_info", "device_name")
@@ -120,4 +189,33 @@ class SQLiteHelper:
         self.update_data("trader_info", {"email": email}, "ROWID = 1")
         self.close_connection()
 
+    def init_trader_profile_table(self):
+        self.connect()
+        table_name = "trader_profile_table"
+        columns = "PID_expired INTEGER, save_user_email INTEGER"
+        if not self.table_exists(table_name):
+            self.create_table(table_name, columns)
+            self.insert_data(table_name, {"PID_expired": 15, "save_user_email": 1})
+
+    def get_PID_expired(self):
+        self.connect()
+        data = self.get_data("trader_profile_table", "PID_expired")
+        self.close_connection()
+        return data[0][0]
+
+    def update_PID_expired(self, pid_expired):
+        self.connect()
+        self.update_data("trader_profile_table", {"PID_expired": pid_expired}, "ROWID = 1")
+        self.close_connection()
+
+    def get_save_user_email(self):
+        self.connect()
+        data = self.get_data("trader_profile_table", "save_user_email")
+        self.close_connection()
+        return data[0][0]
+
+    def update_save_user_email(self, save_user_email):
+        self.connect()
+        self.update_data("trader_profile_table", {"save_user_email": save_user_email}, "ROWID = 1")
+        self.close_connection()
 

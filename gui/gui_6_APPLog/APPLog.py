@@ -2,6 +2,8 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import Canvas, Text, PhotoImage
 
+from utils.dataIO import read_log_msg
+
 
 class APPLog(tk.Frame):
     def __init__(self, parent):
@@ -56,7 +58,7 @@ class APPLog(tk.Frame):
 
         self.dji = self.canvas.create_text(
             536.0,
-            703.0,
+            707.0,
             anchor="nw",
             text="placeholder for dji",
             fill="#64748B",
@@ -65,16 +67,16 @@ class APPLog(tk.Frame):
 
         self.spx = self.canvas.create_text(
             273.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for spx",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
 
-        self.ndx = self.canvas.create_text(
+        self.ixic = self.canvas.create_text(
             404.0,
-            704.0,
+            707.0,
             anchor="nw",
             text="placeholder for ndx",
             fill="#64748B",
@@ -107,7 +109,7 @@ class APPLog(tk.Frame):
             275.0,
             605.0,
             anchor="nw",
-            text="Note: placeholder for the app log location",
+            text="Log File Path: app_running.log",
             fill="#64748B",
             font=("ArialMT", 12 * -1)
         )
@@ -124,21 +126,39 @@ class APPLog(tk.Frame):
         y = event.y
         if x <= 200:
             # Sidebar area clicked
-            print("Sidebar clicked, frame0")
+            # print("Sidebar clicked, frame0")
             self.parent.sidebar_clicked(x, y)
         elif 200 <= x <= 1096 and y <= 60:
             # Top bar area clicked
-            print("Top_bar clicked, frame0")
+            # print("Top_bar clicked, frame0")
             self.parent.top_bar_clicked(x, y)
         else:
             # frame area clicked
             pass
 
     def update_data(self):
-        pass
+        self.update_market_status()
+        self.set_log_file_area()
 
     def msg_clicked(self, event):
-        print(f"{self.name}: Message clicked")
+        # print(f"{self.name}: Message clicked")
+        # not core functionality, implement later
+        pass
 
     def notify_clicked(self, event):
-        print(f"{self.name}: Notify clicked")
+        # print(f"{self.name}: Notify clicked")
+        # not core functionality, implement later
+        pass
+
+    def set_log_file_area(self):
+        # TODO: read log file
+        log_file = read_log_msg()
+        self.entry_1_log_file.delete("1.0", tk.END)
+        self.entry_1_log_file.insert("1.0", log_file)
+        # move the cursor to the end of the text
+        self.entry_1_log_file.see(tk.END)
+
+    def update_market_status(self):
+        self.canvas.itemconfig(self.spx, text=self.parent.spx_price)
+        self.canvas.itemconfig(self.dji, text=self.parent.dji_price)
+        self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
