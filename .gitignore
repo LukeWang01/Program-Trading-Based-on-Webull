@@ -15,5 +15,4 @@ utils/testutils.py
 .vscode/
 *.db
 app_testing.py
-/data
 *.csv

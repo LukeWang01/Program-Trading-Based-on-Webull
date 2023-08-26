@@ -116,8 +116,9 @@ class Strategy:
         self.parent.frames['StrategyMonitor'].set_quoter_stream(info)
 
     def update_strategy_stream(self, info):
-        dict_str = "\n".join([f"{key}: {value}" for key, value in info.items()])
-        self.parent.frames['StrategyMonitor'].set_strategy_stream(dict_str)
+        if info != '':
+            dict_str = "\n".join([f"{key}: {value}" for key, value in info.items()])
+            self.parent.frames['StrategyMonitor'].set_strategy_stream(dict_str)
 
     def check_1m_bar(self, stock):
         if self.quoter:

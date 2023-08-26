@@ -1,5 +1,5 @@
 from strategy.Strategy import Strategy
-import talib
+import pandas_ta as pta
 from utils import play_sound
 from utils.dataIO import is_market_hours
 
@@ -37,7 +37,7 @@ class My_Strategy(Strategy):
         data = self.quoter.get_15min_bar(stock=stock, extend_trading=True)
 
         # 2. calculate the indicator
-        data['RSI'] = talib.RSI(data['Close'], timeperiod=14)
+        data['RSI'] = pta.rsi(data['Close'], length=14)
 
         # 3. check the strategy condition,
         # for example, simply buy when rsi < 30, sell when rsi > 70

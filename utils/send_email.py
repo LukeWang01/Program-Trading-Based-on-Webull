@@ -1,10 +1,9 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from env._secrete import LukeLab_Email_Pwd, LukeLab_Email
 
 
-def send_email(from_, to, msg_subject, msg_body):
+def send_email(from_, to, msg_subject, msg_body, login_email, login_password):
     # create message
     msg = MIMEMultipart()
     msg['From'] = from_
@@ -17,8 +16,8 @@ def send_email(from_, to, msg_subject, msg_body):
     # setup gmail
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
-    smtp_username = LukeLab_Email
-    smtp_password = LukeLab_Email_Pwd
+    smtp_username = login_email
+    smtp_password = login_password
 
     with smtplib.SMTP(smtp_server, smtp_port) as server:
         server.starttls()
