@@ -1,0 +1,9 @@
+requests
+numpy
+pandas
+pandas_ta
+schedule
+simpleaudio
+twilio
+yfinance
+webull
