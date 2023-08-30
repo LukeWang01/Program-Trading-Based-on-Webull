@@ -2,7 +2,7 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import Canvas, Text, PhotoImage
 
-from utils.dataIO import logging_info
+from utils.dataIO import logging_info, logging_error
 
 
 class TradingList(tk.Frame):
@@ -147,26 +147,38 @@ class TradingList(tk.Frame):
         pass
 
     def get_order_list(self):
-        data = self.parent.trader.get_pending_orders_history()
+        try:
+            data = self.parent.trader.get_pending_orders_history()
+        except Exception as e:
+            # print(e)
+            logging_error(str(e))
+            return "Webull API changed, no order found, please contact developer."
         res_str = ''
         if data:
             for order in data:
                 line_str = ''
-                order_date = f"Create Date: {order['orders'][0]['createTime']}\n"
-                order_list_header = 'Ticker, Action, Qty, Price, Amount\n'
-                Ticker = order['orders'][0]['symbol']
-                Action = order['orders'][0]['action']
-                Qty = order['orders'][0]['totalQuantity']
-                Price = order['orders'][0]['lmtPrice']
-                Amount = order['orders'][0]['placeAmount']
-                tmp_line = order_list_header + f"{Ticker}, {Action}, {Qty}, {Price}, {Amount}\n"
-                column_widths = [8, 8, 5, 8, 10]
-                formatted = ''
-                # Format and print the data with aligned columns
-                for line in tmp_line.split("\n"):
-                    cells = line.split(",")
-                    formatted += "".join(cell.strip().ljust(column_width) for cell, column_width in zip(cells, column_widths)) + "\n"
-                line_str += order_date + formatted + '-----------------------------' + '\n'
+                try:
+                    order_date = f"Create Date: {order['orders'][0]['createTime']}\n"
+                    order_list_header = 'Ticker, Action, Qty, Price, Amount\n'
+                    Ticker = order['orders'][0]['symbol']
+                    Action = order['orders'][0]['action']
+                    Qty = order['orders'][0]['totalQuantity']
+                    Price = 0
+                    if order['orders'][0]['orderType'] == 'LMT':
+                        Price = order['orders'][0]['lmtPrice']
+                    elif order['orders'][0]['orderType'] == 'STP':
+                        Price = order['orders'][0]['auxPrice']
+                    Amount = order['orders'][0]['placeAmount']
+                    tmp_line = order_list_header + f"{Ticker}, {Action}, {Qty}, {Price}, {Amount}\n"
+                    column_widths = [8, 8, 5, 8, 10]
+                    formatted = ''
+                    # Format and print the data with aligned columns
+                    for line in tmp_line.split("\n"):
+                        cells = line.split(",")
+                        formatted += "".join(cell.strip().ljust(column_width) for cell, column_width in zip(cells, column_widths)) + "\n"
+                    line_str += order_date + formatted + '-----------------------------' + '\n'
+                except:
+                    line_str = 'Order type not supported \n'
                 res_str += line_str
             logging_info('Get trader order list successfully')
             return res_str

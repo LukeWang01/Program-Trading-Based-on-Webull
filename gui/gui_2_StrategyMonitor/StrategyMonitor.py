@@ -167,10 +167,11 @@ class StrategyMonitor(tk.Frame):
 
         if file_path:
             file_name = os.path.basename(file_path)
-            print("Selected file:", file_name)
+            # print("Selected file:", file_name)
             if file_name not in self.imported_list:
                 self.set_imported_list(file_name)
                 self.imported_list.append(file_name)
+                self.set_current_strategy(file_name)
                 logging_info(f"Imported strategy: {file_name}")
 
     def run_strategy(self):
@@ -187,7 +188,9 @@ class StrategyMonitor(tk.Frame):
 
                         self.running_list.append(file_name)
                         self.strategy_obj_list.append(strategy_obj)
+                        print('running strategy: ', file_name)
                         logging_info(f"Add running strategy: {file_name}")
+                        self.parent.show_info_message(f"Running strategy: {file_name}")
                         # print(self.imported_list)
                         # print(self.running_list)
                         # print(self.strategy_obj_list)
@@ -264,3 +267,6 @@ strategy_instance = {strategy_name}()
 
     def get_imported_list(self):
         return self.entry_3_imported_list.get(1.0, tk.END)
+
+    def set_current_strategy(self, text):
+        self.canvas.itemconfig(self.current_strategy, text=text)

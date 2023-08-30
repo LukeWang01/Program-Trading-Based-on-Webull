@@ -84,10 +84,10 @@ class Strategy:
     def send_notification(self, action_res):
         # send_emails(from_, to, bcc: list, msg_subject, msg_body, login_email, login_password):
         # set the email and password in the app GUI
-        if self.parent.enable_email_notify:
+        if self.parent.enable_email_notify and self.parent.is_email_setup():
             from_ = self.parent.sender_email
             to = self.parent.receiver_email_1
-            bcc = self.parent.receiver_email_2_bcc
+            bcc = self.parent.receiver_email_2_bcc.split(' ')
             msg_subject = f"Strategy: {self.strategy_name}, Action made for {action_res['stock_info']}"
 
             msg_body = ''
@@ -119,6 +119,9 @@ class Strategy:
         if info != '':
             dict_str = "\n".join([f"{key}: {value}" for key, value in info.items()])
             self.parent.frames['StrategyMonitor'].set_strategy_stream(dict_str)
+
+    def get_current_position(self):
+        return self.parent.trader._webull.get_account()['positions']
 
     def check_1m_bar(self, stock):
         if self.quoter:

@@ -57,11 +57,10 @@ class My_Strategy(Strategy):
             action = 'sell'
 
         else:
-            print('no action needed')
-            print('-------------------------')
+            pass
 
         # 4. place order if needed, using the trader object to place order
-        action_res = ''
+        action_res = {}
         if action == 'buy':
             if is_market_hours():
                 action_res = self.parent.trader.order_market_buy(stock, quantity=1)
@@ -77,7 +76,7 @@ class My_Strategy(Strategy):
                 action_res = self.parent.trader.order_market_sell(stock, quantity=1)
             else:
                 price = self.parent.trader.get_ask_price(stock)
-                action_res = self.parent.trader.order_limit_sell_day(stock, price, quantity=1)
+                action_res = self.parent.trader.order_limit_sell_gtc(stock, price, quantity=1)
 
             play_sound.order_placed()
         else:
@@ -86,17 +85,20 @@ class My_Strategy(Strategy):
 
         # Strategy ends here
         # -----------------------------
+
         # Set the info you need to show in the GUI
-        info = f"""
-        {data.index[-1].strftime("%Y-%m-%d %H:%M:%S")}, Stock: {stock}\n
-        Price: {round(data['Close'][-1], 2)} RSI: {round(data['RSI'][-1], 2)} 15min\n
-               """
+        info = f"{data.index[-1].strftime('%Y-%m-%d %H:%M:%S')}, 15min bar\n" \
+               f"Stock: {stock}\n" \
+               f"Price: {round(data['Close'][-1], 2)}\n" \
+               f"RSI: {round(data['RSI'][-1], 2)}\n"
         self.update_quoter_stream(info)
-        self.update_strategy_stream(action_res)
 
         if action == 'buy' or action == 'sell':
-            # save the trading history
-            self.save_strategy_actions(action_res)
-            self.update_strategy_profile()
-            # Send the trading action email and notification to the GUI
-            self.send_notification(action_res)
+            if action_res['result'] == 'success':
+                # update the strategy stream after action
+                self.update_strategy_stream(action_res)
+                # save the trading history
+                self.save_strategy_actions(action_res)
+                self.update_strategy_profile()
+                # Send the trading action email and notification to the GUI
+                self.send_notification(action_res)

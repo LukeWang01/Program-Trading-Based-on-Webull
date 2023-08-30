@@ -121,6 +121,7 @@ class TradingApp(tk.Tk):
                 messagebox.showinfo("Oops", "Sensitive Info, Please login first!")
         elif 289 <= y <= 339:
             if self.logged_in:
+                self.show_info_message("Fetching trading list...")
                 self.show_frame("TradingList")
             else:
                 messagebox.showinfo("Oops", "Sensitive Info, Please login first!")
@@ -180,7 +181,7 @@ class TradingApp(tk.Tk):
         logging_info('set device name successfully')
 
     def login(self, email, password, pid):
-        print(f"email: {email}, parent login called")
+        # print(f"email: {email}, parent login called")
         self.db.update_email(email)
         self.trader.set_trader_info(email, password, pid)
         if self.trader.login_preparation():
@@ -219,6 +220,12 @@ class TradingApp(tk.Tk):
         self.receiver_email_1 = self.db.get_receiver_email_1()
         self.receiver_email_2_bcc = self.db.get_receiver_email_2_bcc()
         self.enable_email_notify = self.db.get_enable_email_notify()
+
+    def is_email_setup(self):
+        if self.sender_email == "" or self.sender_password == "" or self.receiver_email_1 == "":
+            return False
+        else:
+            return True
 
     def exit_app(self):
         self.show_info_message("Exiting...")
@@ -300,6 +307,7 @@ def get_real_time_idx_price(app_obj):
 
 if __name__ == "__main__":
     # main thread:
+    print('TradingApp starting...')
     app = TradingApp()
     logging_info('TradingApp started.')
     # new a thread to run background job:
