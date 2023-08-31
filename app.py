@@ -320,3 +320,4 @@ if __name__ == "__main__":
     bkg_thread_stop_flag.set()
     bkg_thread.join()
     logging_info('TradingApp closed, bkg_thread closed, App terminated successfully.')
+    print('TradingApp closed, bkg_thread closed, App terminated successfully.')

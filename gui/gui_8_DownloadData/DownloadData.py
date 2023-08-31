@@ -221,6 +221,7 @@ class DownloadData(tk.Frame):
         else:
             stock_list = ticker_input.split(" ")
             try:
+                print('Downloading intraday data...')
                 for stock in stock_list:
                     update_intraday_data_history(stock)
                 self.parent.show_info_message("Intraday data downloaded successfully")
@@ -236,6 +237,7 @@ class DownloadData(tk.Frame):
         else:
             stock_list = ticker_input.split(" ")
             try:
+                print('Downloading history data...')
                 for stock in stock_list:
                     download_max_history_candles(stock)
                 self.parent.show_info_message("History data downloaded successfully")
