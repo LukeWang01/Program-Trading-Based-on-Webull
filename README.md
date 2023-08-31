@@ -56,7 +56,7 @@ or,
 `pip3 install -r requirements.txt`
 
 
-[If got errors when installing (click here)](docs/first%20run%20setup.md)
+[If got errors when installing (click here)](docs/first_run_setup.md)
 
 <br>
 
