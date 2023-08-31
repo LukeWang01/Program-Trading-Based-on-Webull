@@ -55,8 +55,7 @@ or,
 
 `pip3 install -r requirements.txt`
 
-
-[If got errors when installing (click here)](docs/first_run_setup.md)
+<a href="https://github.com/LukeWang01/Program-Trading-Based-on-Webull/blob/main/docs/fix_install_error.md" target="_blank">If got errors when installing (click here)</a>
 
 <br>
 
@@ -82,7 +81,7 @@ Double-click the `app_launcher.bat` to run. (Windows only)
 
 ### 2.2 First time launch setup (Setup only once for the Authentication)
 
-[Instructions for the first run setup (click here)](docs/first_run_setup.md)
+<a href="https://github.com/LukeWang01/Program-Trading-Based-on-Webull/blob/main/docs/first_run_setup.md" target="_blank">Instructions for the first run setup (click here) </a>
 
 <br>
 
@@ -90,9 +89,7 @@ Double-click the `app_launcher.bat` to run. (Windows only)
 
 You can create your strategy following the example strategy:
 
-`Program-Trading-Based-on-Webull/strategy/My_Strategy.py`
-
-(https://github.com/LukeWang01/Program-Trading-Based-on-Webull/blob/main/strategy/My_Strategy.py)
+`Program-Trading-Based-on-Webull/strategy/My_Strategy.py` (<a href="https://github.com/LukeWang01/Program-Trading-Based-on-Webull/blob/main/strategy/My_Strategy.py" target="_blank">Click here to open</a>)
 
 <br>
 
@@ -113,36 +110,36 @@ Run your strategy and make tradings after log in:
 
 ## 🖥️ 4. App Features
 
-##### 4.1 Log in
+#### 4.1 Log in
 <img src="docs/docs_img/gui_0.png" width="800" alt="strategy_1">
 
-##### 4.2 Account Dashboard
+#### 4.2 Account Dashboard
 <img src="docs/docs_img/gui_1.png" width="800" alt="strategy_1">
 
-##### 4.3 Select and run strategy, monitor the market and strategy
+#### 4.3 Select and run strategy, monitor the market and strategy
 <img src="docs/docs_img/gui_2.png" width="800" alt="strategy_1">
 
-##### 4.4 Edit your profile settings, add notification email account
+#### 4.4 Edit your profile settings, add notification email account
 <img src="docs/docs_img/gui_3.png" width="800" alt="strategy_1">
 
-##### 4.5 View the trading orders and transaction history
+#### 4.5 View the trading orders and transaction history
 <img src="docs/docs_img/gui_4.png" width="800" alt="strategy_1">
 
-##### 4.6 View the performance of your strategy or account
+#### 4.6 View the performance of your strategy or account
 <img src="docs/docs_img/gui_5.png" width="800" alt="strategy_1">
 
-##### 4.7 View the App running log
+#### 4.7 View the App running log
 <img src="docs/docs_img/gui_6.png" width="800" alt="strategy_1">
 
-##### 4.8 Edit the notification email account settings
+#### 4.8 Edit the notification email account settings
 <img src="docs/docs_img/gui_7.png" width="800" alt="strategy_1">
 
-##### 4.9 Download the stock intraday and history data, saving as csv file
+#### 4.9 Download the stock intraday and history data, saving as csv file
 <img src="docs/docs_img/gui_8.png" width="800" alt="strategy_1">
 
 <img src="docs/docs_img/gui_8_download.png" width="800" alt="strategy_1">
 
-##### 4.10 Safe exit the App
+#### 4.10 Safe exit the App
 <img src="docs/docs_img/gui_9.png" width="800" alt="strategy_1">
 
 <br>
