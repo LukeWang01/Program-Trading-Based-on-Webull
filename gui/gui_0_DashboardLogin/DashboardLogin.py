@@ -5,6 +5,8 @@ from tkinter import Canvas, Entry, PhotoImage, simpledialog, messagebox, END
 from utils.dataIO import logging_info
 from utils.input_check import is_valid_email, is_valid_phone_number, is_valid_pid
 
+import webbrowser
+
 
 class DashboardLogin(tk.Frame):
     def __init__(self, parent):
@@ -163,8 +165,8 @@ class DashboardLogin(tk.Frame):
             self.parent.setup_uuid(input_value)
 
     def instruction_clicked(self):
-        # TODO: add instruction link after github page is created
-        print(f"{self.name}: Instruction clicked")
+        # print(f"{self.name}: Instruction clicked")
+        webbrowser.open("https://github.com/LukeWang01/Program-Trading-Based-on-Webull/blob/main/docs/first_run_setup.md")
 
     def login_clicked(self):
         logging_info("Login triggered")
