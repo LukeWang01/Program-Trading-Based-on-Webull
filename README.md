@@ -8,12 +8,13 @@
 <br>
 
 ## ⚠️ 0. Disclaimer and Security
-- This App is not affiliated with Webull Financial LLC.
+- This App is not affiliated with [Webull Financial LLC](https://www.webull.com/).
 - The webull API used in this App is from: 
   - https://pypi.org/project/webull/ (Pypi.org)
   - https://github.com/tedchou12/webull (Github, by tedchou12)
 - The official [Webull API](https://github.com/webull-inc/openapi-python-sdk) is still under testing. This App will switch to the official API when it is ready.
 - The App GUI is developed via [Tkinter-Designer](https://github.com/ParthJadhav/Tkinter-Designer), an easy and fast way to create a Python GUI.
+- Feel free to fork and edit the code to customize the App for your own use.
 
 <br>
 
@@ -25,10 +26,6 @@
 <br>
 
 - If you don't have Webull account, feel free to use my [referral link](https://www.webull.com/ko-yield/1686282581612-6819bd?__app_cfg__=%7B%22supportTheme%22%3Atrue%7D&inviteCode=vxXUIqoQXd1E&source=hdx) to sign up, you can get 12 free stocks depositing $0.01 or more.
-
-<br>
-
-- Feel free to fork and edit the code to customize the App for your own use.
 
 <br>
 
