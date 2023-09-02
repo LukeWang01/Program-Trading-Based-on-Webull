@@ -35,7 +35,7 @@ class TradingApp(tk.Tk):
         self.name = "TradingApp"
 
         # set app icon
-        self.iconbitmap(default="gui/icon.ico")
+        self.iconbitmap("gui/icon.ico")
 
         # set app window size
         self.geometry("1096x728+200+100")
