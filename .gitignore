@@ -15,3 +15,4 @@ utils/testutils.py
 app_testing.py
 *.csv
 audio/tmp_sound.py
+.DS_Store
