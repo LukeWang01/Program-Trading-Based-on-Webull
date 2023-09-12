@@ -84,6 +84,8 @@ class Strategy:
     def send_notification(self, action_res):
         # send_emails(from_, to, bcc: list, msg_subject, msg_body, login_email, login_password):
         # set the email and password in the app GUI
+
+        # 1. send via email
         if self.parent.enable_email_notify and self.parent.is_email_setup():
             from_ = self.parent.sender_email
             to = self.parent.receiver_email_1
@@ -106,6 +108,10 @@ class Strategy:
                          f'{msg_body}\n\n'
             self.write_message_to_txt(msg_to_txt)
             logging_info(f"Strategy: {self.strategy_name} Status: Email sent")
+
+        # 2. send via discord bot
+        # TODO: add discord bot notification
+        # please refer to discord_bot folder for more details
 
     def write_message_to_txt(self, msg):
         with open('message_list.txt', 'a') as file:

@@ -7,3 +7,4 @@ simpleaudio
 twilio
 yfinance
 webull
+discord
