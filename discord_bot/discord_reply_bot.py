@@ -1,6 +1,6 @@
 import discord
 
-from env._secrete import discord_Token
+from env._secrete import discord_notify_Token
 
 intents = discord.Intents.default()
 
@@ -34,4 +34,4 @@ async def on_message(message):
         await message.channel.send('hoh')
 
 
-client.run(discord_Token)
+client.run(discord_notify_Token)

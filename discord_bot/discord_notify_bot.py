@@ -4,7 +4,7 @@ import time
 
 import discord
 from discord.ext import commands
-from env._secrete import discord_Token, channel_id_general
+from env._secrete import discord_notify_Token, channel_id_general
 
 
 class MyBot(commands.Bot):
@@ -38,7 +38,7 @@ class MyBot(commands.Bot):
 
 
 def send_notification(bot_obj):
-    bot_obj.run(discord_Token)
+    bot_obj.run(discord_notify_Token)
     # bot_obj.loop.run_forever()
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
