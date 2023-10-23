@@ -28,7 +28,10 @@
 
 - If you don't have Webull account, feel free to use my [referral link](https://www.webull.com/ko-yield/1686282581612-6819bd?__app_cfg__=%7B%22supportTheme%22%3Atrue%7D&inviteCode=vxXUIqoQXd1E&source=hdx) to sign up, you can get 12 free stocks after depositing $0.01 or more.
 
+- Give repository a star if it helps~
+
 <br>
+
 
 ## 🤖 1. Install
 
@@ -158,11 +161,18 @@ Run your strategy and make tradings after logging in:
 
 <br>
 
-Good luck to all traders!
+**Good luck to all traders!**
 
 Luke
 
+<br>
 
+## 🦋 Supporting Me
 
+<br>
+
+<a href="https://www.buymeacoffee.com/LukeWang" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href="https://www.paypal.com/paypalme/ZiluWang?locale.x=en_US" target="_blank"><img src="https://github.com/LukeWang01/Program-Trading-Based-on-Webull/assets/25569658/975ac8a4-2f7d-4b11-9900-707abf8d275a" alt="Paypal" width="180" ></a>
+<br>
 
 
