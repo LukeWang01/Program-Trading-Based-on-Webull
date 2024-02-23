@@ -101,4 +101,4 @@ class My_Strategy(Strategy):
                 self.save_strategy_actions(action_res)
                 self.update_strategy_profile()
                 # Send the trading action email and notification to the GUI
-                self.send_notification(action_res)
+                self.send_notification_via_email(action_res)

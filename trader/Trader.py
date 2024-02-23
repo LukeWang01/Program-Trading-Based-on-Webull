@@ -246,7 +246,7 @@ class Trader:
 
     def order_limit_buy_day(self, stock, price, quantity=1):
         self.enable_trading()
-        # Buy, limit price order, buy 1 price, daily:
+        # Buy, limit price order, bid price, buy 1 price, daily:
         response = self._webull.place_order(stock=stock, action='BUY', price=price, enforce='DAY', orderType='LMT',
                                             quant=quantity)
         order_details = self.print_order_details(response, stock, price, quantity, 'BUY', 'DAY')
@@ -254,7 +254,7 @@ class Trader:
 
     def order_limit_sell_day(self, stock, price, quantity=1):
         self.enable_trading()
-        # Sell, limit price order, sell 1 price, daily:
+        # Sell, limit price order, ask price, sell 1 price, daily:
         response = self._webull.place_order(stock=stock, action='SELL', price=price, enforce='DAY', orderType='LMT',
                                             quant=quantity)
         order_details = self.print_order_details(response, stock, price, quantity, 'SELL', 'DAY')
@@ -262,7 +262,7 @@ class Trader:
 
     def order_limit_buy_gtc(self, stock, price, quantity=1):
         self.enable_trading()
-        # Buy, limit price order, buy 1 price, daily:
+        # Buy, limit price order, ask price, buy 1 price, GTC order:
         response = self._webull.place_order(stock=stock, action='BUY', price=price, enforce='GTC', orderType='LMT',
                                             quant=quantity)
         order_details = self.print_order_details(response, stock, price, quantity, 'BUY', 'GTC')
@@ -270,7 +270,7 @@ class Trader:
 
     def order_limit_sell_gtc(self, stock, price, quantity=1):
         self.enable_trading()
-        # Sell, limit price order, sell 1 price, daily:
+        # Sell, limit price order, bid price, sell 1 price, GTC order:
         response = self._webull.place_order(stock=stock, action='SELL', price=price, enforce='GTC', orderType='LMT',
                                             quant=quantity)
         order_details = self.print_order_details(response, stock, price, quantity, 'SELL', 'GTC')

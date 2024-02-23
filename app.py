@@ -310,6 +310,7 @@ if __name__ == "__main__":
     print('TradingApp starting...')
     app = TradingApp()
     logging_info('TradingApp started.')
+
     # new a thread to run background job:
     bkg_thread_stop_flag = threading.Event()
     bkg_thread = threading.Thread(target=bkg_scheduled_fun, args=(app,))

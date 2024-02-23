@@ -119,3 +119,18 @@ def is_market_hours():
         return True
     else:
         return False
+
+
+def read_json_file(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        return data
+    else:
+        return []
+
+
+def write_json_file(file_path, data):
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=2)
+

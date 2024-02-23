@@ -38,40 +38,61 @@ class MyBot(commands.Bot):
 
 
 def send_notification(bot_obj):
-    bot_obj.run(discord_notify_Token)
+    try:
+        bot_obj.run(discord_notify_Token)
     # bot_obj.loop.run_forever()
+    except Exception as e:
+        pass
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.run_until_complete(bot_obj.close_bot())
     loop.stop()  # Stop the event loop
 
 
-def run_bot_send_msg(msg, channel_id=channel_id_general):
-    print("start")
+def run_bot_send_msg_new_thread(msg, channel_id=channel_id_general):
+    # print("start")
     command_prefix = "!"
     intents = discord.Intents.default()
-    bot = MyBot(command_prefix=command_prefix, intents=intents, message=msg, channel_id=channel_id)
+    bot = MyBot(
+        command_prefix=command_prefix,
+        intents=intents,
+        message=msg,
+        channel_id=channel_id,
+    )
 
     thread_bot = threading.Thread(target=send_notification, args=(bot,))
     thread_bot.start()
-    print('thread started')
+    # print('thread started')
     time.sleep(10)
-    print('thread stopping')
+    # print('thread stopping')
     bot.loop.call_soon_threadsafe(bot.loop.stop)  # Stop the bot's event loop
     thread_bot.join()
     print("done")
 
 
-if __name__ == '__main__':
+def run_bot_send_msg(msg, channel_id=channel_id_general):
+    # print("start")
+    command_prefix = "!"
+    intents = discord.Intents.default()
+    bot = MyBot(
+        command_prefix=command_prefix,
+        intents=intents,
+        message=msg,
+        channel_id=channel_id,
+    )
+
+    bot.run(discord_notify_Token)
+    bot.close_bot()
+    print("done")
+
+
+if __name__ == "__main__":
     # if called by python in cmd
     import sys
+
     try:
         arg1 = sys.argv[1]
         run_bot_send_msg(arg1)
     except IndexError:
         arg1 = None
         print("no argument, please provide a message in cmd")
-
-
-
-

@@ -1,4 +1,4 @@
-from discord_notify_bot import run_bot_send_msg
+from discord_notify_bot import run_bot_send_msg, run_bot_send_msg_new_thread
 
 import json
 import hashlib
@@ -57,7 +57,7 @@ while True:
         msg += f"Total Cost: {new_json_state[-1]['order_cost']} \n"
         msg += f"-------------------------"
 
-        run_bot_send_msg(msg, channel_id=channel_id_transaction)
+        run_bot_send_msg_new_thread(msg, channel_id=channel_id_transaction)
 
         # Update the recorded state and hash
         initial_json_state = new_json_state

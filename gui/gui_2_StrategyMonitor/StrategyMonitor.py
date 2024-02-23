@@ -106,7 +106,7 @@ class StrategyMonitor(tk.Frame):
             405.0,
             135.0,
             anchor="nw",
-            text="strategy01",
+            text=" - ",
             fill="#64748B",
             font=("ArialMT", 16 * -1)
         )
@@ -239,9 +239,9 @@ strategy_instance = {strategy_name}()
         self.canvas.itemconfig(self.ixic, text=self.parent.ixic_price)
 
     def set_quoter_stream(self, text):
-        txt = self.get_quoter_stream() + text
-        self.entry_2_quoter_stream.delete(1.0, tk.END)
-        self.entry_2_quoter_stream.insert(1.0, txt)
+        # txt = self.get_quoter_stream() + text
+        # self.entry_2_quoter_stream.delete(1.0, tk.END)
+        self.entry_2_quoter_stream.insert(tk.END, text)
         self.entry_2_quoter_stream.see(tk.END)
 
     def get_quoter_stream(self):

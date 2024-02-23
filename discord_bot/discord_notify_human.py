@@ -10,7 +10,7 @@ from env._secrete import (
 )
 
 
-def send_msg_to_discord_request(msg, channel_id, auth):
+def send_msg_to_discord_request(msg, channel_id=channel_id_general, auth=discord_web_Auth):
     url = f"https://discord.com/api/v9/channels/{channel_id}/messages"
 
     payload = {
