@@ -63,11 +63,11 @@ def run_bot_send_msg_new_thread(msg, channel_id=channel_id_general):
     thread_bot = threading.Thread(target=send_notification, args=(bot,))
     thread_bot.start()
     # print('thread started')
-    time.sleep(10)
+    time.sleep(5)  # wait for bot to send msg before stopping
     # print('thread stopping')
     bot.loop.call_soon_threadsafe(bot.loop.stop)  # Stop the bot's event loop
     thread_bot.join()
-    print("done")
+    print("msg sent, thread joined")
 
 
 def run_bot_send_msg(msg, channel_id=channel_id_general):
