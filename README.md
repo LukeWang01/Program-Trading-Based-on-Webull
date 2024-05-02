@@ -64,6 +64,20 @@ pip3 install -r requirements.txt
 
 <a href="https://github.com/LukeWang01/Program-Trading-Based-on-Webull/blob/main/docs/fix_install_error.md" target="_blank">If got errors when installing (click here)</a>
 
+### 🔐 1.4 Environment Variables
+
+**Create a `.env` File:**
+   - Copy the contents from `.env_example` to a new file named `.env` in the root directory of your project.
+   - This file will store sensitive configuration details such as your Discord bot token and channel IDs.
+
+**Create and Configure Your Discord Bot:**
+   - Visit the [Discord Developer Portal](https://discord.com/developers/docs/intro) to create a new bot. You will need to register a new application and add a bot to that application.
+   - After creating your bot, you will find the bot token in the Bot section. Make sure to save this token in your `.env` file under `DISCORD_NOTIFY_TOKEN`.
+
+**Enable Developer Mode in Discord:**
+  - On desktop: Discord GUI: Access User Settings -> go to Advanced -> enable Developer Mode.
+  - With Developer Mode enabled, you can right-click on any channel in your server to copy its ID. Use these IDs as needed in your `.env` file for `CHANNEL_ID_GENERAL`, `CHANNEL_ID_TRANSACTION`, etc.
+
 <br>
 
 ## 🚀 2. Run
