@@ -5,7 +5,7 @@
 
 ![5704e8798a0e1bcffb39208c781765e](docs_img/log_in_setup_1.png)
 
-![5307336c2cb4b4c4a7561a48c4315d2](docs_img/log_in_setup_2.png)
+![image](https://github.com/LukeWang01/Program-Trading-Based-on-Webull/assets/31261577/a76b8b56-f762-4bd5-8431-d7d12ed10848)
 
 <br>
 
