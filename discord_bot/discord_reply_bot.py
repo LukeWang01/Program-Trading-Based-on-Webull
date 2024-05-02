@@ -1,9 +1,12 @@
 import discord
+from dotenv import load_dotenv
+import os
 
-from env._secrete import discord_notify_Token
+load_dotenv()
+
+discord_notify_Token = os.getenv('DISCORD_NOTIFY_TOKEN')
 
 intents = discord.Intents.default()
-
 client = discord.Client(intents=intents)
 
 
