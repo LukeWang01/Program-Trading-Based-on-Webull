@@ -1,10 +1,15 @@
 import asyncio
 import threading
 import time
-
 import discord
 from discord.ext import commands
 from env._secrete import discord_notify_Token, channel_id_general
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+discord_notify_Token = os.getenv('DISCORD_NOTIFY_TOKEN')
+channel_id_general = os.getenv('CHANNEL_ID_GENERAL')
 
 
 class MyBot(commands.Bot):
