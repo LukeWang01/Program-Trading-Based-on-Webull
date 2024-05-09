@@ -1,18 +1,17 @@
 ## First time launch setup (Setup only once for the Authentication
 
-### 1. Log in to the [Webull official website](https://www.webull.com/) and go to web tradeing page:
+### 1. Log in to the [Webull official website](https://www.webull.com/)
+Then, go to the dev tools (press F12, or right click and select inspect):
+Now navigate to web trading page:
 <br>
 
 ![5704e8798a0e1bcffb39208c781765e](docs_img/log_in_setup_1.png)
 
-![5307336c2cb4b4c4a7561a48c4315d2](docs_img/log_in_setup_2.png)
+![image](https://github.com/LukeWang01/Program-Trading-Based-on-Webull/assets/31261577/a76b8b56-f762-4bd5-8431-d7d12ed10848)
 
 <br>
 
-### 2. Get the uuid, did, access_token from the developing mode:
-
-
-Then, go to the developing mode (press F12, or right click and select inspect):
+### 2. Get the uuid, did, access_token from the dev tools window:
 
 <br>
 
