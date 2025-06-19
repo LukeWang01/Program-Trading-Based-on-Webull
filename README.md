@@ -197,4 +197,7 @@ Luke
 <a href="https://www.paypal.com/paypalme/ZiluWang?locale.x=en_US" target="_blank"><img src="https://github.com/LukeWang01/Program-Trading-Based-on-Webull/assets/25569658/975ac8a4-2f7d-4b11-9900-707abf8d275a" alt="Paypal" width="180" ></a>
 <br>
 
+[Donate via Stripe](https://donate.stripe.com/cNi28s1t1agzgDKdbH7AI09)
+
+
 
