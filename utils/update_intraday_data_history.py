@@ -1,7 +1,6 @@
 import datetime
 
-from quoter.quoter_Webull import Quoter_Webull
-from quoter.quoter_Yahoo import Quoter_Yahoo
+from quoter.Quoter import Quoter
 from utils.dataIO import save_to_csv
 
 """ 
@@ -22,8 +21,8 @@ Note:
 
 def update_intraday_data_history(stock):
     # run every weekend
-    yh_quoter = Quoter_Yahoo()
-    wb_quoter = Quoter_Webull()
+    yh_quoter = Quoter()
+    wb_quoter = Quoter()
 
     stock = stock.upper()
     current_date = datetime.datetime.today().strftime('%Y%m%d')

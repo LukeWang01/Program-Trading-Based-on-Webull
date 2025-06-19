@@ -1,7 +1,6 @@
 import datetime
 
-from quoter.quoter_Webull import Quoter_Webull
-from quoter.quoter_Yahoo import Quoter_Yahoo
+from quoter.Quoter import Quoter
 from utils.dataIO import save_to_csv, save_to_xls, save_to_json, logging_error
 
 """ 
@@ -28,8 +27,8 @@ def download_max_history_candles(stock, count='max', save_format='csv'):
         :return: pandas dataframe
         """
 
-    yh_quoter = Quoter_Yahoo()
-    wb_quoter = Quoter_Webull()
+    yh_quoter = Quoter()
+    wb_quoter = Quoter()
 
     stock = stock.upper()
     response_1h_bar = yh_quoter.get_1h_bar(stock=stock, count=count, extend_trading=True)

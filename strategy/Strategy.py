@@ -1,12 +1,4 @@
-import time
-import pandas as pd
-import numpy as np
-import pandas_ta as pta
-import schedule
-
 from discord_bot.discord_notify_bot import run_bot_send_msg_new_thread
-from quoter.quoter_Webull import Quoter_Webull
-from quoter.quoter_Yahoo import Quoter_Yahoo
 from utils.dataIO import write_trading_log_json, get_current_time, logging_info
 from utils.send_email import send_emails
 
@@ -16,7 +8,7 @@ class Strategy:
     Class Name must be the same as the file name
     """
 
-    def __init__(self, quoter="yahoo"):
+    def __init__(self, quoter='your_quoter'):
         # define your own strategy name, and indicator
         self.strategy_name = "strategy template class"
         self.strategy_actions_history = "strategy_actions_history"
@@ -25,10 +17,6 @@ class Strategy:
         # set market data quoter
         # default is yh_quoter, fast and stable
         self.quoter = None
-        if quoter == "yahoo":
-            self.quoter = Quoter_Yahoo()
-        elif quoter == "webull":
-            self.quoter = Quoter_Webull()
 
         self.cash_balance = 0
         self.market_value = 0
@@ -39,25 +27,6 @@ class Strategy:
         # schedule the strategy to run
         # self.strategy_scheduler()
         self.strategy_load_notification()
-
-    """
-    Response time: 
-        wb_quoter:  around 300 - 800 ms
-        yh_quoter:  around 50 - 400 ms (fairly stable)
-        
-    Intraday (exclude pre-market and after-market):
-    < 15 min:   yh_quoter will get more data
-    > 15 min:   Quoter_Webull will get more data
-    = 1h:       yh_quoter will get more data
-    >= 1d:      yh_quoter will get more data
-    
-    Intraday (include pre-market and after-market):
-    < 15 min:   yh_quoter will get more data
-    > 15 min:   yh_quoter will get more data
-    = 1h:       yh_quoter will get more data
-    >= 1d:      yh_quoter will get more data
-    
-    """
 
     # ******
     # Functions below need to overwrite in your own strategy class
@@ -156,39 +125,47 @@ class Strategy:
             return self.quoter.get_1min_bar(
                 stock=stock, count="max", extend_trading=False
             )
+        return None
 
     def check_2m_bar(self, stock):
         if self.quoter:
             return self.quoter.get_2min_bar(
                 stock=stock, count="max", extend_trading=False
             )
+        return None
 
     def check_5m_bar(self, stock):
         if self.quoter:
             return self.quoter.get_5min_bar(
                 stock=stock, count="max", extend_trading=False
             )
+        return None
 
     def check_15m_bar(self, stock):
         if self.quoter:
             return self.quoter.get_15min_bar(
                 stock=stock, count="max", extend_trading=False
             )
+        return None
 
     def check_30m_bar(self, stock):
         if self.quoter:
             return self.quoter.get_30min_bar(
                 stock=stock, count="max", extend_trading=False
             )
+        return None
 
     def check_1h_bar(self, stock):
         if self.quoter:
             return self.quoter.get_1h_bar(stock=stock, count="1y", extend_trading=False)
+        return None
 
     def check_1d_bar(self, stock):
         if self.quoter:
             return self.quoter.get_1d_bar(stock=stock, count="1y", extend_trading=False)
+        return None
 
     def check_1w_bar(self, stock):
         if self.quoter:
             return self.quoter.get_1w_bar(stock=stock, count="1y", extend_trading=False)
+        return None
