@@ -7,6 +7,10 @@
 
 <br>
 
+# Note on 04/20/2026:
+
+The Webull official API is now open for users: https://developer.webull.com/apis/docs/getting-started
+
 ## ⚠️ 0. Disclaimer and Security
 - This App is not affiliated with [Webull Financial LLC](https://www.webull.com/).
 - The Webull API used in this App is from: 
@@ -37,6 +41,9 @@
 https://discord.gg/9uUpjyyqkZ
 
 or, just add me on Discord. My Discord ID: squawkwallstreet
+
+- Our official website: https://www.lookatwallstreet.com/
+- Nexus Quant: https://nexusquant.co/
 
 <br>
 
